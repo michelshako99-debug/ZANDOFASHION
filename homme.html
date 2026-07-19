@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mode Homme - ZANDO FASHION | Kinshasa</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👗</text></svg>">
+</head>
+<body>
+    <div class="announcement">
+        Livraison gratuite à Kinshasa dès 100 000 FC d'achat · +243 860 848 141
+    </div>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <span class="logo-img">ZF</span>
+                ZANDO <span>FASHION</span>
+            </a>
+            <nav>
+                <a href="index.html">Accueil</a>
+                <a href="femme.html">Femme</a>
+                <a href="homme.html" class="active">Homme</a>
+                <a href="enfant.html">Enfant</a>
+                <a href="index.html#promos">Promotions</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+            <div class="header-actions">
+                <button class="cart-btn" onclick="toggleCart()">
+                    🛒 <span class="cart-count" id="cartCount">0</span>
+                </button>
+                <div class="menu-toggle" onclick="toggleMenu()">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Mode Homme</h1>
+            <p>Costumes, chemises, chaussures et accessoires élégants du ZANDO</p>
+            <div class="breadcrumb">
+                <a href="index.html">Accueil</a> / <span>Homme</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="products-section">
+        <div class="container">
+            <div class="filters">
+                <button class="filter-btn active" onclick="filterProducts('Homme', this)">Tout</button>
+                <button class="filter-btn" onclick="filterBySubcategory('Costumes', this)">Costumes</button>
+                <button class="filter-btn" onclick="filterBySubcategory('Chemises', this)">Chemises</button>
+                <button class="filter-btn" onclick="filterBySubcategory('T-Shirts', this)">T-Shirts</button>
+                <button class="filter-btn" onclick="filterBySubcategory('Pantalons', this)">Pantalons</button>
+                <button class="filter-btn" onclick="filterBySubcategory('Chaussures', this)">Chaussures</button>
+                <button class="filter-btn" onclick="filterBySubcategory('Accessoires', this)">Accessoires</button>
+            </div>
+            <div class="product-grid" id="productGrid"></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <h3>ZANDO FASHION</h3>
+                    <p>Votre boutique en ligne inspirée du Marché Central de Kinshasa (ZANDO). Prix en Francs Congolais.</p>
+                    <div class="social-links">
+                        <a href="#" title="WhatsApp">💬</a>
+                        <a href="#" title="Instagram">📷</a>
+                        <a href="#" title="Facebook">f</a>
+                        <a href="#" title="TikTok">🎵</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Catégories</h4>
+                    <ul>
+                        <li><a href="femme.html">Mode Femme</a></li>
+                        <li><a href="homme.html">Mode Homme</a></li>
+                        <li><a href="enfant.html">Mode Enfant</a></li>
+                        <li><a href="index.html#promos">Promotions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="#">+243 860 848 141</a></li>
+                        <li><a href="#">Marché Central, Kinshasa</a></li>
+                        <li><a href="#">Lun-Sam: 8h-18h</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Infos</h4>
+                    <ul>
+                        <li><a href="#">Livraison</a></li>
+                        <li><a href="#">Retours</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ZANDO FASHION · Kinshasa, RDC · Prix en FC</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Votre panier</h3>
+            <button class="close-cart" onclick="toggleCart()">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty">
+                <div class="empty-icon">🛒</div>
+                <h4>Votre panier est vide</h4>
+                <p>Ajoutez des articles depuis notre boutique</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total</span>
+                <span class="total-price" id="cartTotal">0 FC</span>
+            </div>
+            <button class="btn-checkout" id="checkoutBtn" onclick="checkoutWhatsApp()">Commander sur WhatsApp</button>
+        </div>
+    </div>
+    <div id="notificationContainer"></div>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() { renderProducts('Homme', 'productGrid'); });
+        function filterBySubcategory(sub, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            const container = document.getElementById('productGrid');
+            const filtered = products.filter(p => p.category === 'Homme' && p.subcategory === sub);
+            container.innerHTML = filtered.map(product => `
+                <div class="product-card">
+                    ${product.badge ? `<div class="product-badge ${product.badge}">${product.badge === 'sale' ? 'PROMO' : 'NOUVEAU'}</div>` : ''}
+                    <div class="product-image">
+                        <img src="${product.img}" alt="${product.name}" loading="lazy" 
+                             style="width:100%;height:100%;object-fit:cover;transition:transform 0.3s ease;"
+                             onmouseover="this.style.transform='scale(1.08)'" 
+                             onmouseout="this.style.transform='scale(1)'">
+                    </div>
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <div class="product-category">${product.subcategory}</div>
+                        <div class="product-price">
+                            <span class="current-price">${formatPrice(product.price)}</span>
+                            ${product.oldPrice ? `<span class="old-price">${formatPrice(product.oldPrice)}</span>` : ''}
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-add-cart" onclick="addToCart(${product.id})">Ajouter au panier</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>

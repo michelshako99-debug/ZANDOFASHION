@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZANDO FASHION - Mode Africaine | Kinshasa</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👗</text></svg>">
+</head>
+<body>
+    <!-- ANNOUNCEMENT BAR -->
+    <div class="announcement">
+        Livraison gratuite à Kinshasa dès 250 000 FC d'achat · +243 860 848 141
+    </div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <span class="logo-img">ZF</span>
+                ZANDO <span>FASHION</span>
+            </a>
+            <nav>
+                <a href="index.html" class="active">Accueil</a>
+                <a href="femme.html">Femme</a>
+                <a href="homme.html">Homme</a>
+                <a href="enfant.html">Enfant</a>
+                <a href="#promos">Promotions</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <div class="header-actions">
+                <button class="cart-btn" onclick="toggleCart()">
+                    🛒
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+                <div class="menu-toggle" onclick="toggleMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="tagline">✦ ZANDO NA TSHOMBO</span>
+                <h1>L'élégance du <span>ZANDO</span><br>à portée de clic</h1>
+                <p>Découvrez notre collection exclusive du Marché Central de Kinshasa. Vêtements femme, homme et enfant aux meilleurs prix en Francs Congolais. Achetez en toute simplicité.</p>
+                <div class="hero-buttons">
+                    <a href="#produits" class="btn btn-primary">Explorer la collection</a>
+                    <a href="https://wa.me/243860848141" target="_blank" class="btn btn-whatsapp">Commander via WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROMO BANNER -->
+    <div class="promo-banner" id="promos">
+        PROMO · Jusqu'à -30% sur une sélection d'articles · Livraison rapide partout à Kinshasa
+    </div>
+
+    <!-- CATEGORIES -->
+    <section class="categories">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nos catégories</h2>
+                <p class="subtitle">Explorez notre sélection inspirée du Marché Central de Kinshasa</p>
+                <div class="divider"></div>
+            </div>
+            <div class="category-grid">
+                <a href="femme.html" class="category-card">
+                    <div class="category-bg femme">
+                        <div class="cat-icon">👩</div>
+                        <h3>Femme</h3>
+                        <p>Robes, pagnes, accessoires & plus</p>
+                    </div>
+                </a>
+                <a href="homme.html" class="category-card">
+                    <div class="category-bg homme">
+                        <div class="cat-icon">👨</div>
+                        <h3>Homme</h3>
+                        <p>Costumes, chemises, chaussures</p>
+                    </div>
+                </a>
+                <a href="enfant.html" class="category-card">
+                    <div class="category-bg enfant">
+                        <div class="cat-icon">👶</div>
+                        <h3>Enfant</h3>
+                        <p>Filles, garçons & bébés</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="products-section" id="produits">
+        <div class="container">
+            <div class="section-title">
+                <h2>Tous nos produits</h2>
+                <p class="subtitle">Des articles authentiques du Marché ZANDO aux meilleurs prix</p>
+                <div class="divider"></div>
+            </div>
+            <div class="filters">
+                <button class="filter-btn active" onclick="filterProducts('all', this)">Tout</button>
+                <button class="filter-btn" onclick="filterProducts('Femme', this)">Femme</button>
+                <button class="filter-btn" onclick="filterProducts('Homme', this)">Homme</button>
+                <button class="filter-btn" onclick="filterProducts('Enfant', this)">Enfant</button>
+            </div>
+            <div class="product-grid" id="productGrid"></div>
+        </div>
+    </section>
+
+    <!-- WHY US -->
+    <section class="why-us">
+        <div class="container">
+            <div class="section-title">
+                <h2>Pourquoi nous choisir</h2>
+                <p class="subtitle">Une expérience d'achat conçue pour vous</p>
+                <div class="divider"></div>
+            </div>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="fi-icon">🛡️</div>
+                    <h4>Produits authentiques</h4>
+                    <p>Articles originaux du Marché Central de Kinshasa, sélectionnés avec soin</p>
+                </div>
+                <div class="feature-item">
+                    <div class="fi-icon">💬</div>
+                    <h4>Achat via WhatsApp</h4>
+                    <p>Commandez facilement en un clic et discutez directement avec notre équipe</p>
+                </div>
+                <div class="feature-item">
+                    <div class="fi-icon">🚚</div>
+                    <h4>Livraison partout à Kinshasa</h4>
+                    <p>Livraison rapide et gratuite dès 250 000 FC d'achat dans toute la ville</p>
+                </div>
+                <div class="feature-item">
+                    <div class="fi-icon">💰</div>
+                    <h4>Prix en FC</h4>
+                    <p>Tous nos prix sont en Francs Congolais, transparents et sans surprise</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="newsletter" id="contact">
+        <div class="container">
+            <h3>Restez informé</h3>
+            <p>Soyez notifié des nouvelles collections et des promotions exclusives</p>
+            <form class="newsletter-form" onsubmit="return handleNewsletter(event)">
+                <input type="email" placeholder="Votre adresse email" required>
+                <button type="submit" class="btn btn-primary">S'inscrire</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+       
+   
+    </footer>
+
+    <!-- CART OVERLAY -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <!-- CART SIDEBAR -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Votre panier</h3>
+            <button class="close-cart" onclick="toggleCart()">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty">
+                <div class="empty-icon">🛒</div>
+                <h4>Votre panier est vide</h4>
+                <p>Ajoutez des articles depuis notre boutique</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total</span>
+                <span class="total-price" id="cartTotal">0 FC</span>
+            </div>
+            <button class="btn-checkout" id="checkoutBtn" onclick="checkoutWhatsApp()">
+                Commander sur WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION CONTAINER -->
+    <div id="notificationContainer"></div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
