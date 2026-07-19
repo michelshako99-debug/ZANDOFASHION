@@ -4,7 +4,7 @@ const products = [
     { id: 1, name: "Robe Africaine Pagne", category: "Femme", subcategory: "Robes", price: 45000, oldPrice: 55000, img: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop", badge: "sale" },
     { id: 2, name: "Robe Soirée Élégante", category: "Femme", subcategory: "Robes", price: 55000, oldPrice: 0, img: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=400&h=500&fit=crop", badge: "new" },
     { id: 3, name: "Robe Portefeuille", category: "Femme", subcategory: "Robes", price: 32000, oldPrice: 38000, img: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=400&h=500&fit=crop", badge: "sale" },
-    { id: 4, name: "Jupe Longue élégante", category: "Femme", subcategory: "Jupes", price: 19000, oldPrice: 0, img: "jupes(1).jpg", badge: "new" },
+    { id: 4, name: "Jupe Longue élégante", category: "Femme", subcategory: "Jupes", price: 19000, oldPrice: 0, img: "jupes (1).jpg", badge: "new" },
     { id: 6, name: "Jupe tendance", category: "Femme", subcategory: "Jupes", price: 20000, oldPrice: 20000, img: "jupes(2).jpg", badge: "sale" },
     { id: 7, name: "T-Shirt oversize", category: "Femme", subcategory: "Hauts", price: 22000, oldPrice: 0, img: "hautfemme(1).jpg", badge: "" },
     { id: 8, name: "T-Shirt imprimé", category: "Femme", subcategory: "Hauts", price: 18000, oldPrice: 0, img: "hautfemme(2).jpg", badge: "new" },
