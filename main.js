@@ -22,7 +22,7 @@ const products = [
     { id: 20, name: "Sandales Plat", category: "Femme", subcategory: "Chaussures", price: 15000, oldPrice: 0, img: "acfemme (5).jpg", badge: "" },
     { id: 21, name: "Baskets Femme", category: "Femme", subcategory: "Chaussures", price: 25000, oldPrice: 30000, img: "acfemme (4).jpg", badge: "sale" },
     { id: 22, name: "Pantalon Taille Basse", category: "Femme", subcategory: "Pantalons", price: 20000, oldPrice: 0, img: "acfemme (2).jpg", badge: "" },
-    { id: 23, name: "Jean Slim Femme", category: "Femme", subcategory: "Pantalons", price: 22000, oldPrice: 0, img: "acfemme (9).jpg", badge: "" },
+    { id: 23, name: "Jean Slim Femme", category: "Femme", subcategory: "Pantalons", price: 22000, oldPrice: 0, img: "acfemme(9).jpg", badge: "" },
     { id: 24, name: "Tunique Africaine", category: "Femme", subcategory: "Robes", price: 20000, oldPrice: 0, img: "acfemme (1).jpg", badge: "" },
     { id: 25, name: "Ceinture Femme", category: "Femme", subcategory: "Accessoires", price: 10000, oldPrice: 0, img: "acfemme (8).jpg", badge: "" },
     { id: 26, name: "Jupe crayon", category: "Femme", subcategory: "Jupes", price: 20000, oldPrice: 23000, img: "jupes (3).jpg", badge: "sale" },
