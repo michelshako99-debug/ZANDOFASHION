@@ -1,5 +1,10 @@
+const CLOUDINARY_CONFIG = {
+    cloudName: 'idzs3xup',
+    uploadPreset: 'zando-fashion',
+    uploadUrl: 'https://api.cloudinary.com/v1_1/idzs3xup/image/upload'
+};
+
 // ===== Configuration Firebase =====
-// Configuration de votre projet Firebase
 
 const firebaseConfig = {
     apiKey: "AIzaSyC5L_8MGfEejkx6LcM9z_6XnkknJPt4Fnw",
@@ -11,15 +16,12 @@ const firebaseConfig = {
     measurementId: "G-G1Q4QDF367"
 };
 
-// Initialisation Firebase (SDK v8 compat)
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
-const storage = firebase.storage();
 
 // ===== Fonctions Firebase =====
 
-// Charger tous les produits depuis Firestore
 async function loadProductsFromFirebase() {
     try {
         const snapshot = await db.collection('products').get();
@@ -34,7 +36,6 @@ async function loadProductsFromFirebase() {
     }
 }
 
-// Ajouter un produit
 async function addProductToFirebase(product) {
     try {
         const docRef = await db.collection('products').add(product);
@@ -45,7 +46,6 @@ async function addProductToFirebase(product) {
     }
 }
 
-// Mettre à jour un produit
 async function updateProductInFirebase(productId, data) {
     try {
         await db.collection('products').doc(productId).update(data);
@@ -56,7 +56,6 @@ async function updateProductInFirebase(productId, data) {
     }
 }
 
-// Supprimer un produit
 async function deleteProductFromFirebase(productId) {
     try {
         await db.collection('products').doc(productId).delete();
@@ -67,31 +66,41 @@ async function deleteProductFromFirebase(productId) {
     }
 }
 
-// ===== Upload d'images =====
+// ===== Upload d'images via Cloudinary =====
 
-// Uploader une image vers Firebase Storage
 async function uploadProductImage(file) {
-    try {
-        // Créer un nom de fichier unique
-        const timestamp = Date.now();
-        const fileName = `products/${timestamp}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
-        const storageRef = storage.ref(fileName);
-        
-        // Uploader le fichier
-        const snapshot = await storageRef.put(file);
-        
-        // Récupérer l'URL de téléchargement
-        const downloadURL = await snapshot.ref.getDownloadURL();
-        return downloadURL;
-    } catch (error) {
-        console.error('Erreur lors de l\'upload de l\'image:', error);
-        throw error;
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
+
+    console.log('[Cloudinary] Upload vers:', CLOUDINARY_CONFIG.uploadUrl);
+    console.log('[Cloudinary] Preset:', CLOUDINARY_CONFIG.uploadPreset);
+    console.log('[Cloudinary] Fichier:', file.name, file.type, file.size);
+
+    const response = await fetch(CLOUDINARY_CONFIG.uploadUrl, {
+        method: 'POST',
+        body: formData
+    });
+
+    console.log('[Cloudinary] Statut HTTP:', response.status);
+
+    const responseText = await response.text();
+    console.log('[Cloudinary] Réponse brute:', responseText);
+
+    if (!response.ok) {
+        throw new Error(`Erreur upload Cloudinary ${response.status}: ${responseText}`);
     }
+
+    const data = JSON.parse(responseText);
+    if (!data.secure_url) {
+        throw new Error('Cloudinary n\'a pas retourné d\'URL. Vérifiez le preset.');
+    }
+
+    return data.secure_url;
 }
 
 // ===== Authentification admin =====
 
-// Connexion admin
 async function adminLogin(email, password) {
     try {
         const userCredential = await auth.signInWithEmailAndPassword(email, password);
@@ -100,7 +109,6 @@ async function adminLogin(email, password) {
         console.error('Erreur de connexion:', error);
         let message = 'Email ou mot de passe incorrect';
 
-        // Messages d'erreur Firebase en français
         switch (error.code) {
             case 'auth/user-not-found':
                 message = 'Aucun compte trouvé avec cet email. Vérifiez que l\'utilisateur existe dans Firebase Authentication.';
@@ -131,7 +139,6 @@ async function adminLogin(email, password) {
     }
 }
 
-// Déconnexion admin
 async function adminLogout() {
     try {
         await auth.signOut();
@@ -142,7 +149,6 @@ async function adminLogout() {
     }
 }
 
-// Vérifier si l'utilisateur est connecté
 function isAdminLoggedIn() {
     return new Promise((resolve) => {
         auth.onAuthStateChanged(user => {
@@ -150,3 +156,6 @@ function isAdminLoggedIn() {
         });
     });
 }
+
+window.firebaseReady = true;
+document.dispatchEvent(new CustomEvent('firebase-ready'));
