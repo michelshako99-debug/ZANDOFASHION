@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZANDO FASHION - Mode Africaine | Kinshasa</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👗</text></svg>">
     <style>
 .footer-section ul li {
@@ -49,7 +49,6 @@
                 <a href="#promos">Promotions</a>
                 <a href="#contact">Contact</a>
                 <a href="admin.html">admin</a>
-                
             </nav>
             <div class="header-actions">
                 <button class="cart-btn" onclick="toggleCart()">
@@ -222,14 +221,20 @@
     <!-- NOTIFICATION CONTAINER -->
     <div id="notificationContainer"></div>
 
-    <script src="main.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/main.js"></script>
     
     <!-- Scripts Firebase -->
-        <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-        <script src="js/firebase-config.js"></script>
-        <script src="products.js"></script>
-        <script src="js/admin.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script>
+        function renderHomeProducts() {
+            renderProducts('all', 'productGrid');
+        }
+        document.addEventListener('DOMContentLoaded', renderHomeProducts);
+        document.addEventListener('products-loaded', renderHomeProducts);
+    </script>
 </body>
 </html>
