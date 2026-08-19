@@ -1925,10 +1925,9 @@ footer {
             </table>
         </div>
     </div>
-
     <!-- Modal Ajouter/Modifier Produit -->
-    <div class="modal-overlay" id="product-modal">
-        <div class="modal">
+        <div class="modal-overlay" id="product-modal">
+            <div class="modal">
             <div class="modal-header">
                 <h2 id="modal-title">Ajouter un Produit</h2>
                 <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
@@ -1944,10 +1943,31 @@ footer {
                         <label for="product-category">Catégorie *</label>
                         <select id="product-category" required>
                             <option value="">Choisir...</option>
-                            <option value="informatique">Informatique</option>
-                            <option value="smartphone">Smartphones</option>
-                            <option value="audio">Audio</option>
-                            <option value="accessoire">Accessoires</option>
+                            <option value="Femme">Femme</option>
+                            <option value="Homme">Homme</option>
+                            <option value="Enfant">Enfant</option>
+                        </select>
+                        <label for="product-subcategory">Sous-catégorie</label>
+                        <select id="product-subcategory">
+                            <option value="">Choisir une sous-catégorie...</option>
+
+                            <option value="Robes">Robes</option>
+                            <option value="Jupes">Jupes</option>
+                            <option value="Hauts">Hauts</option>
+                            <option value="Ensembles">Ensembles</option>
+                            <option value="Pagnes">Pagnes</option>
+                            <option value="Accessoires">Accessoires</option>
+
+                            <option value="Costumes">Costumes</option>
+                            <option value="Chemises">Chemises</option>
+                            <option value="T-Shirts">T-shirts</option>
+                            <option value="Pantalons">Pantalons</option>
+                            <option value="Jeans">Jeans</option>
+                            <option value="Chaussures">Chaussures</option>
+
+                            <option value="Filles">Filles</option>
+                            <option value="Garçons">Garçons</option>
+                            <option value="Bébés">Bébés</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -1955,16 +1975,16 @@ footer {
                         <input type="text" id="product-badge" placeholder="Ex: -20%">
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="product-price">Prix (€) *</label>
-                        <input type="number" id="product-price" step="0.01" min="0" placeholder="99.99" required>
+                     <div class="form-row">
+                        <div class="form-group">
+                            <label for="product-price">Prix (FC) *</label>
+                            <input type="number" id="product-price" step="1" min="0" placeholder="45000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-old-price">Ancien Prix (FC)</label>
+                            <input type="number" id="product-old-price" step="1" min="0" placeholder="55000">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="product-old-price">Ancien Prix (€)</label>
-                        <input type="number" id="product-old-price" step="0.01" min="0" placeholder="129.99">
-                    </div>
-                </div>
                 <div class="form-group">
                     <label for="product-image">Photo du produit *</label>
                     <div class="upload-area">
@@ -1997,8 +2017,8 @@ footer {
         <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
-        <script src="firebase-config.js"></script>
-        <script src="admin.js"></script>
+        <script src="js/firebase-config.js"></script>
+        <script src="js/products.js"></script>
+        <script src="js/admin.js"></script>
 </body>
 </html>
