@@ -1,6 +1,17 @@
 // ===== Variables globales =====
 let adminProducts = [];
 
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    })[char]);
+}
+
 // ===== Gestion de la connexion =====
 async function handleLogin(event) {
     event.preventDefault();
@@ -58,22 +69,9 @@ async function loadAdminProducts() {
     }
 }
 
-// Produits locaux de secours (mêmes que script.js)
+// Produits locaux de secours (identiques au site public)
 function getLocalProducts() {
-    return [
-        { id: '1', name: 'Ordinateur Portable Pro', category: 'informatique', price: 899.99, oldPrice: 1099.99, image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&q=80', badge: '-18%', description: 'Ordinateur portable haute performance.' },
-        { id: '2', name: 'Smartphone Galaxy X', category: 'smartphone', price: 699.99, oldPrice: 799.99, image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80', badge: '-12%', description: 'Smartphone avec écran AMOLED.' },
-        { id: '3', name: 'Casque Audio Sans Fil', category: 'audio', price: 149.99, oldPrice: 199.99, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80', badge: '-25%', description: 'Casque sans fil avec réduction de bruit.' },
-        { id: '4', name: 'Montre Connectée Smart', category: 'accessoire', price: 249.99, oldPrice: 299.99, image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80', badge: '-17%', description: 'Montre connectée avec suivi de santé.' },
-        { id: '5', name: 'Tablette Ultra HD', category: 'informatique', price: 449.99, oldPrice: 549.99, image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=600&q=80', badge: '-18%', description: 'Tablette avec écran 11" Ultra HD.' },
-        { id: '6', name: 'Enceinte Bluetooth Pro', category: 'audio', price: 89.99, oldPrice: 129.99, image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&q=80', badge: '-31%', description: 'Enceinte portable avec son 360°.' },
-        { id: '7', name: 'Appareil Photo Numérique', category: 'accessoire', price: 549.99, oldPrice: 649.99, image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=600&q=80', badge: '-15%', description: 'Appareil photo avec capteur 24MP.' },
-        { id: '8', name: 'Clavier Mécanique RGB', category: 'informatique', price: 129.99, oldPrice: 159.99, image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&q=80', badge: '-19%', description: 'Clavier mécanique avec rétroéclairage RGB.' },
-        { id: '9', name: 'Écouteurs Sans Fil', category: 'audio', price: 79.99, oldPrice: 99.99, image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&q=80', badge: '-20%', description: 'Écouteurs sans fil avec réduction de bruit.' },
-        { id: '10', name: 'Console de Jeux Next', category: 'accessoire', price: 499.99, oldPrice: 599.99, image: 'https://images.unsplash.com/photo-1486401899868-0e435ed85128?w=600&q=80', badge: '-17%', description: 'Console de jeux nouvelle génération.' },
-        { id: '11', name: 'Smartphone Éco Plus', category: 'smartphone', price: 399.99, oldPrice: 449.99, image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=600&q=80', badge: '-11%', description: 'Smartphone abordable avec grande autonomie.' },
-        { id: '12', name: 'Disque Dur Externe 2To', category: 'informatique', price: 99.99, oldPrice: 129.99, image: 'https://images.unsplash.com/photo-1531492746076-161ca9bcad58?w=600&q=80', badge: '-23%', description: 'Disque dur externe 2To USB 3.0.' }
-    ];
+    return products;
 }
 
 // ===== Affichage du tableau =====
@@ -95,28 +93,28 @@ function renderProductsTable() {
     }
 
     tbody.innerHTML = adminProducts.map(product => {
-        const image = product.image || 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=200&q=80';
+        const image = product.img || product.image || 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=200&q=80';
         const name = product.name || 'Produit sans nom';
         const category = product.category || 'accessoire';
         const price = product.price || 0;
         const oldPrice = product.oldPrice ? formatAdminPrice(product.oldPrice) : '-';
-        const badge = product.badge ? `<span class="product-category-cell" style="background:rgba(239,68,68,0.1); color:var(--danger);">${product.badge}</span>` : '-';
+        const badge = product.badge ? `<span class="product-category-cell" style="background:rgba(239,68,68,0.1); color:var(--danger);">${escapeHtml(product.badge)}</span>` : '-';
         const id = product.id;
 
         return `
             <tr>
-                <td><img src="${image}" alt="${name}" class="product-thumb"></td>
-                <td class="product-name-cell">${name}</td>
-                <td><span class="product-category-cell">${category}</span></td>
+                <td><img src="${escapeHtml(image)}" alt="${escapeHtml(name)}" class="product-thumb"></td>
+                <td class="product-name-cell">${escapeHtml(name)}</td>
+                <td><span class="product-category-cell">${escapeHtml(category)}</span></td>
                 <td class="product-price-cell">${formatAdminPrice(price)}</td>
                 <td class="old-price-cell">${oldPrice}</td>
                 <td>${badge}</td>
                 <td>
                     <div class="action-buttons">
-                        <button class="btn-edit" onclick="openEditModal('${id}')" title="Modifier">
+                        <button class="btn-edit" data-id="${id}" title="Modifier">
                             <i class="fas fa-edit"></i>
                         </button>
-                        <button class="btn-delete" onclick="handleDelete('${id}')" title="Supprimer">
+                        <button class="btn-delete" data-id="${id}" title="Supprimer">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -124,10 +122,25 @@ function renderProductsTable() {
             </tr>
         `;
     }).join('');
+
+    const tableWrapper = document.querySelector('.admin-table-wrapper');
+    if (tableWrapper) {
+        tableWrapper.querySelectorAll('.btn-edit, .btn-delete').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const actionBtn = e.currentTarget;
+                const productId = actionBtn.dataset.id;
+                if (actionBtn.classList.contains('btn-edit')) {
+                    openEditModal(productId);
+                } else if (actionBtn.classList.contains('btn-delete')) {
+                    handleDelete(productId);
+                }
+            });
+        });
+    }
 }
 
 function formatAdminPrice(price) {
-    return parseFloat(price).toFixed(2).replace('.', ',') + '€';
+    return parseFloat(price).toFixed(2).replace('.', ',') + ' FC';
 }
 
 // ===== Statistiques =====
@@ -192,13 +205,12 @@ async function handleProductSubmit(event) {
     const productData = {
         name: document.getElementById('product-name').value,
         category: document.getElementById('product-category').value,
+        subcategory: document.getElementById('product-subcategory').value || '',
         price: parseFloat(document.getElementById('product-price').value),
         oldPrice: document.getElementById('product-old-price').value ? parseFloat(document.getElementById('product-old-price').value) : null,
-        image: document.getElementById('product-image').value,
+        img: document.getElementById('product-image').value,
         badge: document.getElementById('product-badge').value || '',
-        description: document.getElementById('product-description').value,
-        rating: 4.5,
-        reviews: 0
+        description: document.getElementById('product-description').value
     };
 
     try {
@@ -229,6 +241,12 @@ async function handleProductSubmit(event) {
         closeModal();
         showAdminToast('Produit enregistré (mode local)');
     }
+
+    saveProductsToLocal();
+}
+
+function saveProductsToLocal() {
+    localStorage.setItem('zandoProducts', JSON.stringify(adminProducts));
 }
 
 // ===== Suppression =====
@@ -244,6 +262,7 @@ async function handleDelete(productId) {
         showAdminToast('Produit supprimé (mode local)');
     }
     loadAdminProducts();
+    saveProductsToLocal();
 }
 
 // ===== Aperçu image =====
@@ -277,7 +296,7 @@ document.getElementById('product-image-file').addEventListener('change', async f
     statusEl.textContent = 'Upload en cours...';
 
     try {
-        // Uploader l'image vers Firebase Storage
+        // Uploader l'image vers Cloudinary
         const downloadURL = await uploadProductImage(file);
         
         // Mettre à jour le champ URL et l'aperçu
@@ -304,35 +323,9 @@ document.getElementById('product-image-file').addEventListener('change', async f
         console.error('Erreur upload (objet complet):', error);
         progressFill.style.width = '0%';
 
-        let userMessage = 'Erreur lors de l\'upload. Vérifiez que Firebase Storage est activé.';
-        switch (error.code) {
-            case 'storage/unauthorized':
-                userMessage = 'Accès refusé (storage/unauthorized). Vérifiez les règles de sécurité Firebase Storage (Storage → Rules) et que vous êtes bien connecté.';
-                break;
-            case 'storage/unauthenticated':
-                userMessage = 'Vous n\'êtes pas authentifié (storage/unauthenticated). Reconnectez-vous.';
-                break;
-            case 'storage/quota-exceeded':
-                userMessage = 'Quota Storage dépassé. Ce projet doit être sur le plan Blaze (pay-as-you-go).';
-                break;
-            case 'storage/no-default-bucket':
-                userMessage = 'Aucun bucket configuré (storage/no-default-bucket). Vérifiez storageBucket dans firebase-config.js.';
-                break;
-            case 'storage/unknown':
-                userMessage = 'Erreur inconnue (storage/unknown). Vérifiez que Firebase Storage est bien activé dans la console et inspectez la console développeur (F12) pour plus de détails.';
-                break;
-            case 'storage/canceled':
-                userMessage = 'Upload annulé.';
-                break;
-            case 'storage/retry-limit-exceeded':
-                userMessage = 'Délai dépassé (storage/retry-limit-exceeded). Vérifiez votre connexion internet et réessayez.';
-                break;
-            default:
-                if (error.code) {
-                    userMessage = `Erreur (${error.code}) : ${error.message}`;
-                } else if (error.message) {
-                    userMessage = `Erreur : ${error.message}`;
-                }
+        let userMessage = 'Erreur lors de l\'upload. Vérifiez votre connexion internet et votre configuration Cloudinary.';
+        if (error.message) {
+            userMessage = error.message;
         }
 
         statusEl.textContent = userMessage;
