@@ -154,7 +154,7 @@ function updateStats() {
     document.getElementById('stat-categories').textContent = categories.size;
 
     const totalValue = adminProducts.reduce((sum, p) => sum + parseFloat(p.price), 0);
-    document.getElementById('stat-stock').textContent = totalValue.toFixed(0).replace('.', ',') + '€';
+    document.getElementById('stat-stock').textContent = totalValue.toFixed(0).replace('.', ',') + 'FC';
 }
 
 // ===== Modal Ajouter/Modifier =====
