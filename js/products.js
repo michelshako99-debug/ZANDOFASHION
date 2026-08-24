@@ -58,6 +58,6 @@ const products = [
     { id: 62, name: "Ensemble Bébé", category: "Enfant", subcategory: "Bébés", price: 18000, oldPrice: 0, img: "bébé (2).jpg", badge: "new" },
     { id: 63, name: "Ensemble Bébé", category: "Enfant", subcategory: "Bébés", price: 10000, oldPrice: 0, img: "bébé (3).jpg", badge: "" },
     { id: 64, name: "Ensemble Bébé", category: "Enfant", subcategory: "Bébés", price: 16000, oldPrice: 0, img: "bébé (4).jpg", badge: "" },
-    { id: 65, name: "Chaussures Enfant", category: "Enfant", subcategory: "Chaussures", price: 10000, oldPrice: 0, img: " basketkids (1).jpg", badge: "" },
-    { id: 66, name: "Chaussures Enfant", category: "Enfant", subcategory: "Chaussures", price: 7000, oldPrice: 0, img: " basketkids (2).jpg", badge: "" }
+    { id: 65, name: "Chaussures Enfant", category: "Enfant", subcategory: "Chaussures", price: 10000, oldPrice: 0, img: "basketkids (1).jpg", badge: "" },
+    { id: 66, name: "Chaussures Enfant", category: "Enfant", subcategory: "Chaussures", price: 7000, oldPrice: 0, img: "basketkids (2).jpg", badge: "" }
 ];
