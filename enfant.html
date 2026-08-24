@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="announcement">
-        Livraison gratuite à Kinshasa dès 100 000 FC d'achat · +243 976 520 957
+        Livraison gratuite à Kinshasa dès 100 000 FC d'achat · +243 860 848 141
     </div>
     <header>
         <div class="container">
@@ -24,6 +24,7 @@
                 <a href="enfant.html" class="active">Enfant</a>
                 <a href="index.html#promos">Promotions</a>
                 <a href="index.html#contact">Contact</a>
+                <a href="C:\Users\MIMA ESEMA\Desktop\zando-fashion\admin.html">admin</a>
             </nav>
             <div class="header-actions">
                 <button class="cart-btn" onclick="toggleCart()">
@@ -128,7 +129,14 @@
     </div>
     <div id="notificationContainer"></div>
     <script src="js/products.js"></script>
-    <script src="main.js"></script>
+    <script src="js/main.js"></script>
+    
+    <!-- Scripts Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() { renderProducts('Enfant', 'productGrid'); });
         function filterBySubcategory(sub, btn) {
