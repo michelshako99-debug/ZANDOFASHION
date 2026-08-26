@@ -1009,10 +1009,304 @@ nav a.active::after {
             auto !important;
     }
 }
+/* =========================================================
+   ZANDO FASHION — PREMIUM LOADER
+   ========================================================= */
 
+#zfLoader {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255,255,255,.04),
+            transparent 45%
+        ),
+        #111;
+
+    opacity: 1;
+    visibility: visible;
+
+    transition:
+        opacity .8s cubic-bezier(.16,1,.3,1),
+        visibility .8s ease;
+}
+
+
+/* Quand le chargement est terminé */
+
+#zfLoader.zf-loaded {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+
+/* Contenu */
+
+.zf-loader-content {
+    width: min(360px, 80%);
+    text-align: center;
+
+    animation:
+        zfLoaderContent
+        1s cubic-bezier(.16,1,.3,1)
+        both;
+}
+
+@keyframes zfLoaderContent {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.zf-loader-logo {
+    width: 75px;
+    height: 75px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18px;
+
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: 2px;
+
+    color: #fff;
+
+    border: 1px solid rgba(255,255,255,.18);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.12),
+            rgba(255,255,255,.03)
+        );
+
+    box-shadow:
+        0 15px 50px rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.12);
+
+    animation:
+        zfLogoPulse
+        2.8s
+        ease-in-out
+        infinite;
+}
+
+@keyframes zfLogoPulse {
+
+    0%, 100% {
+        transform:
+            scale(1)
+            rotate(0deg);
+    }
+
+    50% {
+        transform:
+            scale(1.06)
+            rotate(-2deg);
+    }
+}
+
+
+/* =========================================================
+   NOM
+   ========================================================= */
+
+.zf-loader-brand {
+    color: #fff;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 28px;
+}
+
+.zf-loader-brand span {
+    font-weight: 300;
+    opacity: .65;
+}
+
+
+/* =========================================================
+   BARRE
+   ========================================================= */
+
+.zf-loader-line {
+    width: 100%;
+    height: 3px;
+
+    overflow: hidden;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,255,255,.12);
+
+    box-shadow:
+        0 0 15px rgba(255,255,255,.05);
+}
+
+
+/* Progression */
+
+.zf-loader-progress {
+    width: 0%;
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.4),
+            #fff,
+            rgba(255,255,255,.4)
+        );
+
+    box-shadow:
+        0 0 15px rgba(255,255,255,.5);
+
+    animation:
+        zfLoadingProgress
+        2.5s
+        cubic-bezier(.16,1,.3,1)
+        forwards;
+}
+
+@keyframes zfLoadingProgress {
+
+    0% {
+        width: 0%;
+    }
+
+    35% {
+        width: 35%;
+    }
+
+    65% {
+        width: 68%;
+    }
+
+    85% {
+        width: 88%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+
+/* =========================================================
+   TEXTE
+   ========================================================= */
+
+.zf-loader-text {
+    margin-top: 14px;
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+
+    color:
+        rgba(255,255,255,.45);
+
+    animation:
+        zfLoaderText
+        2s
+        ease-in-out
+        infinite;
+}
+
+@keyframes zfLoaderText {
+
+    0%, 100% {
+        opacity: .4;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .zf-loader-logo {
+        width: 65px;
+        height: 65px;
+        font-size: 21px;
+    }
+
+    .zf-loader-brand {
+        font-size: 17px;
+        letter-spacing: 3px;
+    }
+
+    .zf-loader-content {
+        width: 75%;
+    }
+}
 </style>
 </head>
 <body>
+      <!-- =====================================================
+     ZANDO FASHION — PREMIUM LOADER
+     ===================================================== -->
+
+<div id="zfLoader">
+
+    <div class="zf-loader-content">
+
+        <div class="zf-loader-logo">
+            ZF
+        </div>
+
+        <div class="zf-loader-brand">
+            ZANDO <span>FASHION</span>
+        </div>
+
+        <div class="zf-loader-line">
+            <div class="zf-loader-progress"></div>
+        </div>
+
+        <div class="zf-loader-text">
+            Chargement de votre expérience...
+        </div>
+
+    </div>
+
+</div>
     <div class="announcement">
         Livraison gratuite à Kinshasa dès 100 000 FC d'achat · +243 860 848 141
     </div>
@@ -1173,5 +1467,47 @@ nav a.active::after {
             `).join('');
         }
     </script>
+    <script>
+/* =========================================================
+   ZANDO FASHION — LOADER RAPIDE
+   Affiché uniquement lors d'une actualisation
+   ========================================================= */
+
+(function () {
+
+    const loader = document.getElementById("zfLoader");
+
+    if (!loader) return;
+
+    const navigation = performance.getEntriesByType("navigation")[0];
+
+    // Afficher uniquement après F5 / Ctrl+R
+    if (navigation && navigation.type === "reload") {
+
+        window.addEventListener("load", function () {
+
+            // Disparaît rapidement
+            setTimeout(() => {
+
+                loader.classList.add("zf-loaded");
+
+                // Suppression complète
+                setTimeout(() => {
+                    loader.remove();
+                }, 500);
+
+            }, 600);
+
+        });
+
+    } else {
+
+        // Navigation normale : aucun loader
+        loader.remove();
+
+    }
+
+})();
+</script>
 </body>
 </html>
