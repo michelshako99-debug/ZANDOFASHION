@@ -6,6 +6,1011 @@
     <title>Mode Femme - ZANDO FASHION | Kinshasa</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👗</text></svg>">
+<style>
+
+/* ============================================================
+   ZANDO FASHION — PAGE ENFANT
+   PREMIUM MOTION SYSTEM
+   ============================================================ */
+
+:root {
+    --zf-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --zf-ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+/* ============================================================
+   01 — PAGE
+   ============================================================ */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+
+/* ============================================================
+   02 — BARRE D'ANNONCE
+   ============================================================ */
+
+.announcement {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.announcement::after {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: -120%;
+
+    width: 45%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.20),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+
+    animation:
+        zfAnnouncementShine
+        6s
+        ease-in-out
+        infinite;
+
+    pointer-events: none;
+}
+
+@keyframes zfAnnouncementShine {
+
+    0% {
+        left: -120%;
+    }
+
+    35%,
+    100% {
+        left: 140%;
+    }
+}
+
+
+/* ============================================================
+   03 — HEADER
+   ============================================================ */
+
+header {
+    position: relative;
+    z-index: 100;
+}
+
+
+/* Logo */
+
+.logo {
+    transition:
+        transform .5s var(--zf-ease),
+        letter-spacing .4s ease;
+}
+
+.logo:hover {
+    transform: translateY(-2px);
+    letter-spacing: .6px;
+}
+
+.logo-img {
+    display: inline-flex;
+
+    transition:
+        transform .6s var(--zf-ease),
+        box-shadow .5s ease;
+}
+
+.logo:hover .logo-img {
+    transform:
+        rotate(-6deg)
+        scale(1.08);
+}
+
+
+/* ============================================================
+   04 — NAVIGATION
+   ============================================================ */
+
+nav a {
+    position: relative;
+
+    transition:
+        color .35s ease,
+        transform .35s var(--zf-ease);
+}
+
+nav a:hover {
+    transform: translateY(-2px);
+}
+
+
+/* Point sous le menu */
+
+nav a::before {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: -8px;
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: currentColor;
+
+    transform:
+        translateX(-50%)
+        scale(0);
+
+    transition:
+        transform .35s var(--zf-ease);
+}
+
+nav a:hover::before,
+nav a.active::before {
+    transform:
+        translateX(-50%)
+        scale(1);
+}
+
+
+/* Ligne */
+
+nav a::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: -6px;
+
+    width: 0;
+    height: 1px;
+
+    background: currentColor;
+
+    transform: translateX(-50%);
+
+    transition:
+        width .45s var(--zf-ease);
+}
+
+nav a:hover::after,
+nav a.active::after {
+    width: 65%;
+}
+
+
+/* ============================================================
+   05 — PANIER
+   ============================================================ */
+
+.cart-btn {
+    transition:
+        transform .4s var(--zf-ease),
+        box-shadow .4s ease;
+}
+
+.cart-btn:hover {
+    transform:
+        translateY(-3px)
+        scale(1.05);
+}
+
+.cart-btn:active {
+    transform: scale(.92);
+}
+
+
+/* Compteur */
+
+.cart-count {
+    animation:
+        zfCartPulse
+        2.5s
+        ease-in-out
+        infinite;
+}
+
+@keyframes zfCartPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.12);
+    }
+}
+
+
+/* ============================================================
+   06 — MENU MOBILE
+   ============================================================ */
+
+.menu-toggle span {
+    transition:
+        transform .45s var(--zf-ease),
+        opacity .3s ease;
+}
+
+.menu-toggle:hover span:nth-child(1) {
+    transform: translateX(3px);
+}
+
+.menu-toggle:hover span:nth-child(3) {
+    transform: translateX(-3px);
+}
+
+
+/* ============================================================
+   07 — PAGE HEADER
+   ============================================================ */
+
+.page-header {
+    position: relative;
+
+    overflow: hidden;
+    isolation: isolate;
+}
+
+
+/* Lumière douce */
+
+.page-header::before {
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    right: -200px;
+    top: -300px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.13),
+            transparent 68%
+        );
+
+    animation:
+        zfHeaderOrb
+        10s
+        ease-in-out
+        infinite;
+
+    pointer-events: none;
+}
+
+@keyframes zfHeaderOrb {
+
+    0%,
+    100% {
+        transform:
+            translate(0,0)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate(-60px,70px)
+            scale(1.15);
+    }
+}
+
+
+/* Deuxième lumière */
+
+.page-header::after {
+    content: "";
+
+    position: absolute;
+
+    width: 250px;
+    height: 250px;
+
+    left: -140px;
+    bottom: -150px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    animation:
+        zfHeaderRing
+        12s
+        linear
+        infinite;
+
+    pointer-events: none;
+}
+
+@keyframes zfHeaderRing {
+
+    from {
+        transform:
+            rotate(0deg)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            rotate(180deg)
+            scale(1.2);
+    }
+
+    to {
+        transform:
+            rotate(360deg)
+            scale(1);
+    }
+}
+
+
+/* Contenu */
+
+.page-header .container {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* Titre */
+
+.page-header h1 {
+    animation:
+        zfTitleReveal
+        .9s
+        var(--zf-ease)
+        both;
+}
+
+@keyframes zfTitleReveal {
+
+    from {
+        opacity: 0;
+        transform: scale(.94);
+        filter: blur(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+    }
+}
+
+
+/* Description */
+
+.page-header p {
+    animation:
+        zfTextReveal
+        .8s
+        .15s
+        var(--zf-ease)
+        both;
+}
+
+@keyframes zfTextReveal {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Breadcrumb */
+
+.breadcrumb {
+    animation:
+        zfTextReveal
+        .8s
+        .25s
+        var(--zf-ease)
+        both;
+}
+
+
+/* ============================================================
+   08 — FILTRES
+   ============================================================ */
+
+.filters {
+    position: relative;
+}
+
+
+/* Boutons */
+
+.filter-btn {
+    position: relative;
+
+    overflow: hidden;
+
+    transition:
+        transform .4s var(--zf-ease),
+        box-shadow .4s ease,
+        background .35s ease;
+}
+
+.filter-btn:hover {
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.10);
+}
+
+.filter-btn:active {
+    transform: scale(.95);
+}
+
+
+/* Reflet */
+
+.filter-btn::before {
+    content: "";
+
+    position: absolute;
+
+    top: -100%;
+    left: -80%;
+
+    width: 45%;
+    height: 300%;
+
+    background:
+        rgba(255,255,255,.20);
+
+    transform: rotate(25deg);
+
+    transition:
+        left .7s var(--zf-ease);
+}
+
+.filter-btn:hover::before {
+    left: 130%;
+}
+
+
+/* ============================================================
+   09 — GRILLE PRODUITS
+   ============================================================ */
+
+.product-grid {
+    perspective: 1200px;
+}
+
+
+/* ============================================================
+   10 — CARTE PRODUIT
+   ============================================================ */
+
+/*
+   IMPORTANT :
+   Pas d'animation d'apparition.
+   Les produits restent immédiatement visibles.
+*/
+
+.product-card {
+    position: relative;
+
+    overflow: hidden;
+
+    transition:
+        transform .55s var(--zf-ease),
+        box-shadow .55s ease,
+        filter .4s ease;
+}
+
+
+/* Hover premium */
+
+.product-card:hover {
+
+    transform:
+        translateY(-8px)
+        scale(1.012);
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.16);
+
+    filter: brightness(1.02);
+}
+
+
+/* ============================================================
+   11 — IMAGE PRODUIT
+   ============================================================ */
+
+.product-image {
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+/* Zoom image */
+
+.product-card img,
+.product-image img {
+
+    transition:
+        transform .8s var(--zf-ease),
+        filter .6s ease;
+}
+
+
+.product-card:hover img,
+.product-image:hover img {
+
+    transform: scale(1.08);
+
+    filter:
+        brightness(1.04);
+}
+
+
+/* ============================================================
+   12 — REFLET SUR L'IMAGE
+   ============================================================ */
+
+.product-image::after {
+
+    content: "";
+
+    position: absolute;
+
+    top: -100%;
+    left: -80%;
+
+    width: 55%;
+    height: 300%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.20),
+            transparent
+        );
+
+    transform: rotate(20deg);
+
+    transition:
+        left 1s var(--zf-ease);
+
+    pointer-events: none;
+}
+
+
+.product-card:hover .product-image::after {
+    left: 145%;
+}
+
+
+/* ============================================================
+   13 — BADGE
+   ============================================================ */
+
+.product-badge {
+
+    animation:
+        zfBadgePulse
+        3s
+        ease-in-out
+        infinite;
+}
+
+@keyframes zfBadgePulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.06);
+    }
+}
+
+
+/* ============================================================
+   14 — INFORMATIONS PRODUIT
+   ============================================================ */
+
+.product-info h3 {
+
+    transition:
+        transform .4s var(--zf-ease),
+        color .35s ease;
+}
+
+.product-card:hover .product-info h3 {
+
+    transform:
+        translateX(3px);
+}
+
+
+/* Catégorie */
+
+.product-category {
+
+    transition:
+        opacity .35s ease;
+}
+
+.product-card:hover .product-category {
+    opacity: .75;
+}
+
+
+/* Prix */
+
+.current-price {
+
+    transition:
+        transform .4s var(--zf-ease);
+}
+
+.product-card:hover .current-price {
+
+    transform:
+        scale(1.03);
+
+    transform-origin: left center;
+}
+
+
+/* ============================================================
+   15 — BOUTON AJOUTER AU PANIER
+   ============================================================ */
+
+.product-card .btn-add-cart {
+
+    position: relative;
+
+    overflow: hidden;
+
+    transition:
+        transform .4s var(--zf-ease),
+        box-shadow .4s ease;
+}
+
+
+.product-card .btn-add-cart:hover {
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.14);
+}
+
+
+.product-card .btn-add-cart:active {
+
+    transform:
+        scale(.95);
+}
+
+
+/* Reflet */
+
+.product-card .btn-add-cart::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -100%;
+
+    width: 70%;
+    height: 100%;
+
+    background:
+        rgba(255,255,255,.18);
+
+    transform:
+        skewX(-20deg);
+
+    transition:
+        left .7s var(--zf-ease);
+}
+
+
+.product-card .btn-add-cart:hover::before {
+    left: 140%;
+}
+
+
+/* ============================================================
+   16 — FOOTER
+   ============================================================ */
+
+.footer-links li a {
+
+    display: inline-block;
+
+    transition:
+        transform .35s var(--zf-ease),
+        color .35s ease;
+}
+
+.footer-links li a:hover {
+
+    transform:
+        translateX(6px);
+}
+
+
+/* Social */
+
+.social-links a {
+
+    display: inline-flex;
+
+    transition:
+        transform .4s var(--zf-ease),
+        box-shadow .4s ease;
+}
+
+.social-links a:hover {
+
+    transform:
+        translateY(-5px)
+        scale(1.08);
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.15);
+}
+
+
+/* ============================================================
+   17 — PANIER
+   ============================================================ */
+
+.cart-overlay {
+
+    transition:
+        opacity .5s ease,
+        visibility .5s ease;
+}
+
+
+.cart-sidebar {
+
+    transition:
+        transform .65s var(--zf-ease),
+        box-shadow .65s ease;
+}
+
+
+.close-cart {
+
+    transition:
+        transform .45s var(--zf-ease),
+        background .3s ease;
+}
+
+
+.close-cart:hover {
+
+    transform:
+        rotate(90deg)
+        scale(1.1);
+}
+
+
+/* Articles */
+
+.cart-item {
+
+    animation:
+        zfCartItem
+        .5s
+        var(--zf-ease)
+        both;
+}
+
+@keyframes zfCartItem {
+
+    from {
+        opacity: 0;
+        transform: translateX(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+/* Checkout */
+
+.btn-checkout {
+
+    position: relative;
+
+    overflow: hidden;
+
+    transition:
+        transform .4s var(--zf-ease),
+        box-shadow .4s ease;
+}
+
+
+.btn-checkout:hover {
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.16);
+}
+
+
+.btn-checkout::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -100%;
+
+    width: 70%;
+    height: 100%;
+
+    background:
+        rgba(255,255,255,.20);
+
+    transform:
+        skewX(-20deg);
+
+    transition:
+        left .7s var(--zf-ease);
+}
+
+
+.btn-checkout:hover::before {
+    left: 140%;
+}
+
+
+/* ============================================================
+   18 — NOTIFICATIONS
+   ============================================================ */
+
+#notificationContainer > * {
+
+    animation:
+        zfNotification
+        .5s
+        var(--zf-ease)
+        both;
+}
+
+@keyframes zfNotification {
+
+    from {
+        opacity: 0;
+        transform:
+            translateX(50px)
+            scale(.94);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateX(0)
+            scale(1);
+    }
+}
+
+
+/* ============================================================
+   19 — MOBILE
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+    .page-header::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    .page-header::after {
+        width: 180px;
+        height: 180px;
+    }
+
+    .product-card:hover {
+
+        transform:
+            translateY(-5px)
+            scale(1.006);
+    }
+
+    .product-card:hover img {
+
+        transform:
+            scale(1.05);
+    }
+
+    .filter-btn:hover {
+
+        transform:
+            translateY(-2px);
+    }
+
+    .social-links a:hover {
+
+        transform:
+            translateY(-3px)
+            scale(1.05);
+    }
+}
+
+
+/* ============================================================
+   20 — ACCESSIBILITÉ
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration:
+            .01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            .01ms !important;
+
+        scroll-behavior:
+            auto !important;
+    }
+}
+
+</style>
 </head>
 <body>
     <div class="announcement">
