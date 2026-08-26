@@ -1996,7 +1996,8 @@ button:active {
     </script>
 <script>
 /* =========================================================
-   ZANDO FASHION — LOADER UNIQUEMENT APRÈS ACTUALISATION
+   ZANDO FASHION — LOADER RAPIDE
+   Affiché uniquement lors d'une actualisation
    ========================================================= */
 
 (function () {
@@ -2005,34 +2006,30 @@ button:active {
 
     if (!loader) return;
 
-    /*
-       Navigation normale :
-       on ne montre pas le loader.
-    */
     const navigation = performance.getEntriesByType("navigation")[0];
 
+    // Afficher uniquement après F5 / Ctrl+R
     if (navigation && navigation.type === "reload") {
-
-        // Actualisation F5 / Ctrl+R
-        loader.style.display = "flex";
 
         window.addEventListener("load", function () {
 
+            // Disparaît rapidement
             setTimeout(() => {
 
                 loader.classList.add("zf-loaded");
 
+                // Suppression complète
                 setTimeout(() => {
                     loader.remove();
-                }, 900);
+                }, 500);
 
-            }, 1800);
+            }, 600);
 
         });
 
     } else {
 
-        // Arrivée normale sur la page
+        // Navigation normale : aucun loader
         loader.remove();
 
     }
