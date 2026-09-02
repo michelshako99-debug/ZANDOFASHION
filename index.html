@@ -1585,7 +1585,7 @@ button:active {
 
     animation:
         zfLogoPulse
-        2.2s
+        3.2s
         ease-in-out
         infinite;
 }
@@ -1789,7 +1789,8 @@ button:active {
 
     <!-- ANNOUNCEMENT BAR -->
     <div class="announcement">
-        Livraison gratuite à Kinshasa dès 250 000 FC d'achat · +243 860 848 141
+        Livraison gratuite à Kinshasa dès 250 000 FC d'achat · +243 860
+         848 141
     </div>
 
     <!-- HEADER -->
@@ -1831,7 +1832,7 @@ button:active {
                 <p>Découvrez notre collection exclusive du Marché Central de Kinshasa. Vêtements femme, homme et enfant aux meilleurs prix en Francs Congolais. Achetez en toute simplicité.</p>
                 <div class="hero-buttons">
                     <a href="#produits" class="btn btn-primary">Explorer la collection</a>
-                    <a href="https://wa.me/243976520957" target="_blank" class="btn btn-whatsapp">Commander via WhatsApp</a>
+                    <a href="#categories"  class="btn btn-whatsapp">Commander via WhatsApp</a>
                 </div>
             </div>
         </div>
@@ -1843,7 +1844,7 @@ button:active {
     </div>
 
     <!-- CATEGORIES -->
-    <section class="categories">
+    <section class="categories" id="categories">
         <div class="container">
             <div class="section-title">
                 <h2>Nos catégories</h2>
@@ -1942,9 +1943,6 @@ button:active {
     <!-- FOOTER -->
     <footer>
         <div class="footer-section">
-                <ul>
-                    <li><a href="admin.html"><i class="fas fa-user-shield"></i> Espace Admin</a></li>
-                </ul>
             </div>
 
     </footer>
@@ -1982,18 +1980,7 @@ button:active {
     <script src="js/products.js"></script>
     <script src="js/main.js"></script>
     
-    <!-- Scripts Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="js/firebase-config.js"></script>
-    <script>
-        function renderHomeProducts() {
-            renderProducts('all', 'productGrid');
-        }
-        document.addEventListener('DOMContentLoaded', renderHomeProducts);
-        document.addEventListener('products-loaded', renderHomeProducts);
-    </script>
+ 
 <script>
 /* =========================================================
    ZANDO FASHION — LOADER RAPIDE
@@ -2036,5 +2023,17 @@ button:active {
 
 })();
 </script>
+   <!-- Scripts Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script>
+        function renderHomeProducts() {
+            renderProducts('all', 'productGrid');
+        }
+        document.addEventListener('DOMContentLoaded', renderHomeProducts);
+        document.addEventListener('products-loaded', renderHomeProducts);
+    </script>
 </body>
 </html>
