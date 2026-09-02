@@ -128,6 +128,7 @@ function showDashboard() {
 
 // ===== Gestion des produits =====
 async function loadAdminProducts() {
+    trackVisit();
     const products = await loadProductsFromFirebase();
     if (products) {
         adminProducts = products;
@@ -215,6 +216,45 @@ function formatAdminPrice(price) {
     return parseFloat(price).toFixed(2).replace('.', ',') + ' FC';
 }
 
+// ===== Statistiques de visite (localStorage, comptage simple) =====
+function getSessionToken() {
+    let token = sessionStorage.getItem('zandoSessionToken');
+    if (!token) {
+        token = Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
+        sessionStorage.setItem('zandoSessionToken', token);
+    }
+    return token;
+}
+
+function trackVisit() {
+    if (sessionStorage.getItem('visitRecorded') === '1') return;
+
+    const token = getSessionToken();
+
+    const today = new Date().toISOString().slice(0, 10);
+    const todayKey = 'zandoVisits_today';
+    let todayData = JSON.parse(localStorage.getItem(todayKey) || '{}');
+    if (todayData.date !== today) todayData = { date: today, count: 0 };
+    todayData.count += 1;
+    localStorage.setItem(todayKey, JSON.stringify(todayData));
+
+    const month = new Date().toISOString().slice(0, 7);
+    const monthKey = 'zandoVisits_month';
+    let monthData = JSON.parse(localStorage.getItem(monthKey) || '{}');
+    if (monthData.month !== month) monthData = { month: month, count: 0 };
+    monthData.count += 1;
+    localStorage.setItem(monthKey, JSON.stringify(monthData));
+
+    const uniqueKey = 'zandoUniqueVisitors';
+    let unique = JSON.parse(localStorage.getItem(uniqueKey) || '[]');
+    if (!unique.includes(token)) {
+        unique.push(token);
+        localStorage.setItem(uniqueKey, JSON.stringify(unique));
+    }
+
+    sessionStorage.setItem('visitRecorded', '1');
+}
+
 // ===== Statistiques =====
 function updateStats() {
     document.getElementById('stat-products').textContent = adminProducts.length;
@@ -227,6 +267,17 @@ function updateStats() {
 
     const totalValue = adminProducts.reduce((sum, p) => sum + parseFloat(p.price), 0);
     document.getElementById('stat-stock').textContent = totalValue.toFixed(0).replace('.', ',') + 'FC';
+
+    const today = new Date().toISOString().slice(0, 10);
+    const todayData = JSON.parse(localStorage.getItem('zandoVisits_today') || '{}');
+    document.getElementById('stat-today').textContent = (todayData.date === today ? todayData.count : 0) || 0;
+
+    const month = new Date().toISOString().slice(0, 7);
+    const monthData = JSON.parse(localStorage.getItem('zandoVisits_month') || '{}');
+    document.getElementById('stat-month').textContent = (monthData.month === month ? monthData.count : 0) || 0;
+
+    const unique = JSON.parse(localStorage.getItem('zandoUniqueVisitors') || '[]');
+    document.getElementById('stat-unique').textContent = unique.length || 0;
 }
 
 // ===== Modal Ajouter/Modifier =====
