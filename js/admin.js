@@ -1,6 +1,78 @@
 // ===== Variables globales =====
 let adminProducts = [];
 
+/* Palette élargie de couleurs utilisables dans le sélecteur visuel */
+const ADMIN_COLORS = [
+    { name: 'Noir', value: '#000000' },
+    { name: 'Blanc', value: '#FFFFFF' },
+    { name: 'Gris clair', value: '#E5E7EB' },
+    { name: 'Gris', value: '#9CA3AF' },
+    { name: 'Anthracite', value: '#374151' },
+    { name: 'Rouge', value: '#EF4444' },
+    { name: 'Bordeaux', value: '#991B1B' },
+    { name: 'Corail', value: '#FF6B6B' },
+    { name: 'Rose', value: '#EC4899' },
+    { name: 'Rose pâle', value: '#FBCDD6' },
+    { name: 'Violet', value: '#8B5CF6' },
+    { name: 'Mauve', value: '#A855F7' },
+    { name: 'Bleu nuit', value: '#1E3A8A' },
+    { name: 'Bleu foncé', value: '#00008B' },
+    { name: 'Bleu', value: '#2563EB' },
+    { name: 'Bleu clair', value: '#3B82F6' },
+    { name: 'Turquoise', value: '#14B8A8' },
+    { name: 'Vert', value: '#10B981' },
+    { name: 'Vert olive', value: '#65A30D' },
+    { name: 'Vert foncé', value: '#166534' },
+    { name: 'Jaune', value: '#FACC15' },
+    { name: 'Ambré', value: '#F59E0B' },
+    { name: 'Orange', value: '#F97316' },
+    { name: 'Marron', value: '#8B4513' },
+    { name: 'Chocolat', value: '#45230B' },
+    { name: 'Beige', value: '#D2B48C' },
+    { name: 'Crème', value: '#FEF3C7' },
+    { name: 'Or', value: '#D4AF37' },
+    { name: 'Argent', value: '#CBD5E1' },
+    { name: 'Bronze', value: '#CD7F32' }
+];
+
+function renderColorPalette(selectedValues) {
+    const palette = document.getElementById('color-palette');
+    if (!palette) return;
+
+    palette.innerHTML = '';
+
+    ADMIN_COLORS.forEach(c => {
+        const selected = selectedValues.includes(c.value);
+        const swatch = document.createElement('button');
+        swatch.type = 'button';
+        swatch.className = 'color-swatch' + (selected ? ' selected' : '');
+        if (c.value === '#FFFFFF') swatch.classList.add('white-swatch');
+        swatch.dataset.colorValue = c.value;
+        swatch.dataset.colorName = c.name;
+        swatch.style.background = c.value;
+        swatch.title = c.name;
+        swatch.addEventListener('click', (e) => {
+            e.preventDefault();
+            swatch.classList.toggle('selected');
+            updateSelectedColorsCount();
+        });
+        palette.appendChild(swatch);
+    });
+
+    updateSelectedColorsCount();
+}
+
+function updateSelectedColorsCount() {
+    const count = document.querySelectorAll('#color-palette .color-swatch.selected').length;
+    const countEl = document.getElementById('selected-colors-count');
+    if (countEl) countEl.textContent = count;
+}
+
+function getSelectedColors() {
+    return Array.from(document.querySelectorAll('#color-palette .color-swatch.selected'))
+        .map(s => ({ name: s.dataset.colorName, value: s.dataset.colorValue }));
+}
+
 function escapeHtml(str) {
     if (!str) return '';
     return str.replace(/[&<>"']/g, char => ({
@@ -168,12 +240,14 @@ function openAddModal() {
     document.getElementById('product-old-price').value = '';
     document.getElementById('product-image').value = '';
     document.getElementById('product-description').value = '';
+    document.getElementById('product-sizes').value = '';
+    renderColorPalette([]);
     document.getElementById('image-preview').style.display = 'none';
     document.getElementById('product-modal').classList.add('active');
 }
 
 function openEditModal(productId) {
-    const product = adminProducts.find(p => p.id === productId);
+    const product = adminProducts.find(p => String(p.id) === String(productId));
     if (!product) return;
 
     document.getElementById('modal-title').textContent = 'Modifier le Produit';
@@ -183,11 +257,17 @@ function openEditModal(productId) {
     document.getElementById('product-badge').value = product.badge || '';
     document.getElementById('product-price').value = product.price;
     document.getElementById('product-old-price').value = product.oldPrice || '';
-    document.getElementById('product-image').value = product.image;
+    document.getElementById('product-image').value = product.image || product.img || '';
     document.getElementById('product-description').value = product.description || '';
+    document.getElementById('product-sizes').value = Array.isArray(product.sizes) ? product.sizes.join(', ') : '';
+
+    const selectedColorValues = Array.isArray(product.colors)
+        ? product.colors.map(c => typeof c === 'string' ? c : (c && c.value) ? c.value : null).filter(Boolean)
+        : [];
+    renderColorPalette(selectedColorValues);
 
     const preview = document.getElementById('image-preview');
-    preview.src = product.image;
+    preview.src = product.image || product.img || '';
     preview.style.display = 'block';
 
     document.getElementById('product-modal').classList.add('active');
@@ -210,7 +290,11 @@ async function handleProductSubmit(event) {
         oldPrice: document.getElementById('product-old-price').value ? parseFloat(document.getElementById('product-old-price').value) : null,
         img: document.getElementById('product-image').value,
         badge: document.getElementById('product-badge').value || '',
-        description: document.getElementById('product-description').value
+        description: document.getElementById('product-description').value,
+        sizes: document.getElementById('product-sizes').value
+            ? document.getElementById('product-sizes').value.split(',').map(s => s.trim()).filter(Boolean)
+            : [],
+        colors: getSelectedColors() || []
     };
 
     try {
@@ -228,7 +312,7 @@ async function handleProductSubmit(event) {
     } catch (error) {
         // Fallback local si Firebase n'est pas configuré
         if (productId) {
-            const index = adminProducts.findIndex(p => p.id === productId);
+            const index = adminProducts.findIndex(p => String(p.id) === String(productId));
             if (index !== -1) {
                 adminProducts[index] = { ...adminProducts[index], ...productData };
             }
@@ -258,7 +342,7 @@ async function handleDelete(productId) {
         showAdminToast('Produit supprimé !');
     } catch (error) {
         // Fallback local
-        adminProducts = adminProducts.filter(p => p.id !== productId);
+        adminProducts = adminProducts.filter(p => String(p.id) !== String(productId));
         showAdminToast('Produit supprimé (mode local)');
     }
     loadAdminProducts();
