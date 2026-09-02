@@ -2205,6 +2205,56 @@ img {
     height: auto;
 }
 
+/* ===== Sélecteur de Couleurs en Palette ===== */
+.color-palette {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.color-swatch {
+    width: 36px;
+    height: 36px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    background: #e2e8f0;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.color-swatch:hover {
+    transform: scale(1.14);
+    border-color: var(--primary);
+}
+
+.color-swatch.selected {
+    border-color: var(--primary);
+    transform: scale(1.08);
+    box-shadow: 0 0 0 3px rgba(26, 45, 74, 0.25);
+}
+
+.color-swatch.selected::after {
+    content: "✓";
+    color: var(--white);
+    font-size: 0.8rem;
+    text-shadow: 0 0 2px rgba(0,0,0,0.6);
+}
+
+.color-swatch.white-swatch.selected::after {
+    color: var(--primary);
+}
+
+.form-hint {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.8rem;
+    color: var(--gray-500);
+}
+
     </style>
 </head>
 <body class="admin-body">
@@ -2357,6 +2407,18 @@ img {
                         <div class="form-group">
                             <label for="product-old-price">Ancien Prix (FC)</label>
                             <input type="number" id="product-old-price" step="1" min="0" placeholder="55000">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="product-sizes">Tailles (séparées par des virgules)</label>
+                            <input type="text" id="product-sizes" placeholder="Ex: S, M, L, XL, XXL">
+                        </div>
+                        <div class="form-group">
+                            <label for="color-palette">Couleurs (cliquez pour sélectionner)</label>
+                            <div class="color-palette" id="color-palette"></div>
+                            <input type="hidden" id="product-colors-data">
+                            <small class="form-hint">Couleurs sélectionnées : <span id="selected-colors-count">0</span></small>
                         </div>
                     </div>
                 <div class="form-group">
