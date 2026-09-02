@@ -62,8 +62,10 @@ function escapeHtml(str) {
 }
 
 function createProductCard(product) {
+    normalizeOptions(product);
     const card = document.createElement('div');
     card.className = 'product-card';
+    card.classList.add('product-card-animate');
     card.dataset.category = product.category || '';
 
     if (product.badge) {
@@ -115,6 +117,58 @@ function createProductCard(product) {
     }
     info.appendChild(priceEl);
 
+    if (Array.isArray(product.colors) && product.colors.length) {
+        const colorWrap = document.createElement('div');
+        colorWrap.className = 'variant-selector color-selector';
+
+        const colorLabel = document.createElement('span');
+        colorLabel.className = 'variant-label';
+        colorLabel.textContent = 'Couleur :';
+        colorWrap.appendChild(colorLabel);
+
+        product.colors.forEach((c, i) => {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = 'color-dot';
+            dot.dataset.color = c.value;
+            dot.setAttribute('title', c.name);
+            dot.style.background = c.value;
+            dot.style.borderColor = c.value === '#FFFFFF' ? 'rgba(0,0,0,.2)' : 'transparent';
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                colorWrap.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+                dot.classList.add('active');
+            });
+            colorWrap.appendChild(dot);
+        });
+        info.appendChild(colorWrap);
+    }
+
+    if (Array.isArray(product.sizes) && product.sizes.length) {
+        const sizeWrap = document.createElement('div');
+        sizeWrap.className = 'variant-selector size-selector';
+
+        const sizeLabel = document.createElement('span');
+        sizeLabel.className = 'variant-label';
+        sizeLabel.textContent = 'Taille :';
+        sizeWrap.appendChild(sizeLabel);
+
+        product.sizes.forEach((s, i) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'size-btn';
+            btn.dataset.size = s;
+            btn.textContent = s;
+            if (i === 0) btn.classList.add('active');
+            btn.addEventListener('click', () => {
+                sizeWrap.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+            sizeWrap.appendChild(btn);
+        });
+        info.appendChild(sizeWrap);
+    }
+
     const actions = document.createElement('div');
     actions.className = 'product-actions';
 
@@ -140,8 +194,10 @@ function renderProducts(category = 'all', containerId = 'productGrid') {
         : products.filter(p => p.category === category);
 
     container.innerHTML = '';
-    filtered.forEach(product => {
-        container.appendChild(createProductCard(product));
+    filtered.forEach((product, index) => {
+        const card = createProductCard(product);
+        card.style.animationDelay = (index * 0.05) + 's';
+        container.appendChild(card);
     });
 
     attachCartListeners(container);
@@ -151,13 +207,19 @@ function attachCartListeners(container) {
     container.querySelectorAll('.btn-add-cart').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const productId = e.currentTarget.dataset.productId;
-            if (productId) addToCart(productId);
+            if (!productId) return;
+            const card = e.currentTarget.closest('.product-card');
+            const sizeBtn = card ? card.querySelector('.size-btn.active') : null;
+            const colorDot = card ? card.querySelector('.color-dot.active') : null;
+            const selectedSize = sizeBtn ? sizeBtn.dataset.size : null;
+            const selectedColor = colorDot ? colorDot.dataset.color : null;
+            addToCart(productId, selectedSize, selectedColor);
         });
     });
 }
 
 // ===== ADD TO CART =====
-function addToCart(productId) {
+function addToCart(productId, size, color) {
 
     const product = products.find(
         p => String(p.id) === String(productId)
@@ -168,8 +230,18 @@ function addToCart(productId) {
         return;
     }
 
+    let colorLabel = color;
+    if (color) {
+        const match = product.colors
+            ? product.colors.find(c => c.value === color)
+            : null;
+        if (match) colorLabel = match.name;
+    }
+
     const existingItem = cart.find(
         item => String(item.id) === String(productId)
+            && item.size === size
+            && item.color === colorLabel
     );
 
     if (existingItem) {
@@ -177,16 +249,22 @@ function addToCart(productId) {
     } else {
         cart.push({
             ...product,
-            quantity: 1
+            quantity: 1,
+            size: size || null,
+            color: colorLabel || null
         });
     }
 
     saveCart();
     updateCartUI();
 
+    let added = `<strong>${product.name}</strong> ajouté au panier`;
+    if (size) added += ` (Taille: ${size})`;
+    if (colorLabel) added += ` (Couleur: ${colorLabel})`;
+
     showNotification(
         '✓',
-        `<strong>${product.name}</strong> ajouté au panier`
+        added
     );
     
     const cartBtn = document.querySelector('.cart-btn');
@@ -194,22 +272,27 @@ function addToCart(productId) {
     setTimeout(() => { cartBtn.style.transform = 'scale(1)'; }, 300);
 }
 
+function getItemId(item) {
+    if (item.itemId) return item.itemId;
+    return String(item.id) + '|' + (item.size || '') + '|' + (item.color || '');
+}
+
 // ===== REMOVE FROM CART =====
-function removeFromCart(productId) {
-    cart = cart.filter(item => item.id !== productId);
+function removeFromCart(itemId) {
+    cart = cart.filter(item => getItemId(item) !== String(itemId));
     saveCart();
     updateCartUI();
 }
 
 // ===== UPDATE QUANTITY =====
-function updateQuantity(productId, delta) {
-    const item = cart.find(item => item.id === productId);
+function updateQuantity(itemId, delta) {
+    const item = cart.find(item => String(getItemId(item)) === String(itemId));
     if (!item) return;
     
     item.quantity += delta;
     
     if (item.quantity <= 0) {
-        removeFromCart(productId);
+        removeFromCart(getItemId(item));
         return;
     }
     
@@ -249,23 +332,35 @@ function updateCartUI() {
     const checkoutBtn = document.getElementById('checkoutBtn');
     if (checkoutBtn) checkoutBtn.disabled = false;
     
-    cartItemsContainer.innerHTML = cart.map(item => `
+    cartItemsContainer.innerHTML = cart.map(item => {
+        const cartItemId = getItemId(item);
+        let variant = '';
+        if (item.size || item.color) {
+            const parts = [];
+            if (item.size) parts.push('Taille : ' + item.size);
+            if (item.color) parts.push('Couleur : ' + item.color);
+            variant = `<div class="cart-item-variant">${parts.join(' · ')}</div>`;
+        }
+
+        return `
         <div class="cart-item">
             <div class="cart-item-image">
                 <img src="${item.img}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" onerror="this.parentElement.innerHTML='📷'">
             </div>
             <div class="cart-item-details">
                 <h4>${item.name}</h4>
+                ${variant}
                 <div class="cart-item-price">${formatPrice(item.price)}</div>
                 <div class="cart-item-qty">
-                    <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">−</button>
+                    <button class="qty-btn" onclick="updateQuantity('${escapeHtml(cartItemId)}', -1)">−</button>
                     <span class="qty-value">${item.quantity}</span>
-                    <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
-                    <button class="remove-item" onclick="removeFromCart(${item.id})">Supprimer</button>
+                    <button class="qty-btn" onclick="updateQuantity('${escapeHtml(cartItemId)}', 1)">+</button>
+                    <button class="remove-item" onclick="removeFromCart('${escapeHtml(cartItemId)}')">Supprimer</button>
                 </div>
             </div>
         </div>
-    `).join('');
+    `;
+    }).join('');
     
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const cartTotal = document.getElementById('cartTotal');
@@ -297,6 +392,8 @@ function checkoutWhatsApp() {
     cart.forEach((item, index) => {
         message += `${index + 1}. *${item.name}*\n`;
         message += `   Quantité: ${item.quantity}\n`;
+        if (item.size) message += `   Taille: ${item.size}\n`;
+        if (item.color) message += `   Couleur: ${item.color}\n`;
         message += `   Prix: ${formatPrice(item.price * item.quantity)}\n\n`;
     });
     
@@ -478,25 +575,13 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             container.innerHTML = '';
-            sortedProducts.forEach(product => {
-                container.appendChild(createProductCard(product));
+            sortedProducts.forEach((product, index) => {
+                const card = createProductCard(product);
+                card.style.animationDelay = (index * 0.05) + 's';
+                container.appendChild(card);
             });
             attachCartListeners(container);
         });
     }
-
-    // ===== Couleurs =====
-    document.querySelectorAll('.color-dot').forEach(dot => {
-
-        dot.addEventListener('click', () => {
-
-            document
-                .querySelectorAll('.color-dot')
-                .forEach(d => d.classList.remove('active'));
-
-            dot.classList.add('active');
-        });
-
-    });
 
 });
