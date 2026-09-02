@@ -1,131 +1,587 @@
-const products = [
-    { id: 1, name: "Robe Africaine Pagne", category: "Femme", subcategory: "Robes", price: 45000, oldPrice: 55000, img: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop", badge: "sale" },
-    { id: 2, name: "Robe Soirée Élégante", category: "Femme", subcategory: "Robes", price: 55000, oldPrice: 0, img: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=400&h=500&fit=crop", badge: "new" },
-    { id: 3, name: "Robe Portefeuille", category: "Femme", subcategory: "Robes", price: 32000, oldPrice: 38000, img: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=400&h=500&fit=crop", badge: "sale" },
-    { id: 4, name: "Jupe Longue élégante", category: "Femme", subcategory: "Jupes", price: 19000, oldPrice: 0, img: "jupes (1).jpg", badge: "new" },
-    { id: 6, name: "Jupe tendance", category: "Femme", subcategory: "Jupes", price: 20000, oldPrice: 20000, img: "jupes (2).jpg", badge: "sale" },
-    { id: 7, name: "T-Shirt oversize", category: "Femme", subcategory: "Hauts", price: 22000, oldPrice: 0, img: "hautfemme (1).jpg", badge: "" },
-    { id: 8, name: "T-Shirt imprimé", category: "Femme", subcategory: "Hauts", price: 18000, oldPrice: 0, img: "hautfemme (2).jpg", badge: "new" },
-    { id: 9, name: "T-Shirt crop top", category: "Femme", subcategory: "Hauts", price: 15000, oldPrice: 0, img: "hautfemme (3).jpg", badge: "" },
-    { id: 10, name: "Ensemble Tailleur", category: "Femme", subcategory: "Ensembles", price: 65000, oldPrice: 80000, img: "https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?w=400&h=500&fit=crop", badge: "sale" },
-    { id: 11, name: "Ensemble Jupe & Haut", category: "Femme", subcategory: "Ensembles", price: 35000, oldPrice: 0, img: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=400&h=500&fit=crop", badge: "" },
-    { id: 12, name: "Pagne Bazin Riche", category: "Femme", subcategory: "Pagnes", price: 35000, oldPrice: 0, img: "pagne (1).jpg", badge: "" },
-    { id: 13, name: "Pagne Tissu Hollandais", category: "Femme", subcategory: "Pagnes", price: 55000, oldPrice: 65000, img: "pagne (2).jpg", badge: "sale" },
-    { id: 14, name: "Pagne Wax Coton", category: "Femme", subcategory: "Pagnes", price: 25000, oldPrice: 0, img: "pagne (3).jpg", badge: "" },
-    { id: 15, name: "Sac à Main Cuir", category: "Femme", subcategory: "Accessoires", price: 28000, oldPrice: 35000, img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&h=500&fit=crop", badge: "sale" },
-    { id: 16, name: "Foulard Soie", category: "Femme", subcategory: "Accessoires", price: 12000, oldPrice: 0, img: "accfemme (2).jpg", badge: "" },
-    { id: 17, name: "Collier Perles", category: "Femme", subcategory: "Accessoires", price: 8500, oldPrice: 12000, img: "acfemme (7).jpg", badge: "sale" },
-    { id: 18, name: "Boucles d'Oreilles", category: "Femme", subcategory: "Accessoires", price: 15000, oldPrice: 0, img: "acfemme (6).jpg", badge: "new" },
-    { id: 19, name: "Chaussures Talon", category: "Femme", subcategory: "Chaussures", price: 32000, oldPrice: 0, img: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400&h=500&fit=crop", badge: "new" },
-    { id: 20, name: "Sandales Plat", category: "Femme", subcategory: "Chaussures", price: 15000, oldPrice: 0, img: "acfemme (5).jpg", badge: "" },
-    { id: 21, name: "Baskets Femme", category: "Femme", subcategory: "Chaussures", price: 25000, oldPrice: 30000, img: "acfemme (4).jpg", badge: "sale" },
-    { id: 22, name: "Pantalon Taille Basse", category: "Femme", subcategory: "Pantalons", price: 20000, oldPrice: 0, img: "acfemme (2).jpg", badge: "" },
-    { id: 23, name: "Jean Slim Femme", category: "Femme", subcategory: "Pantalons", price: 22000, oldPrice: 0, img: "acfemme (9).jpg", badge: "" },
-    { id: 24, name: "Tunique Africaine", category: "Femme", subcategory: "Robes", price: 20000, oldPrice: 0, img: "acfemme (1).jpg", badge: "" },
-    { id: 25, name: "Ceinture Femme", category: "Femme", subcategory: "Accessoires", price: 10000, oldPrice: 0, img: "acfemme (8).jpg", badge: "" },
-    { id: 26, name: "Jupe crayon", category: "Femme", subcategory: "Jupes", price: 20000, oldPrice: 23000, img: "jupes (3).jpg", badge: "sale" },
-    { id: 27, name: "Jupe Plissée", category: "Femme", subcategory: "Jupes", price: 20000, oldPrice: 25000, img: "jupes (4).jpg", badge: "sale" },
-    { id: 28, name: "T-Shirt basique", category: "Femme", subcategory: "Hauts", price: 15000, oldPrice: 0, img: "hautfemme (4).jpg", badge: "" },
-    { id: 29, name: "Costume Complet", category: "Homme", subcategory: "Costumes", price: 100000, oldPrice: 150000, img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&h=500&fit=crop", badge: "sale" },
-    { id: 30, name: "Costume Cravate", category: "Homme", subcategory: "Costumes", price: 95000, oldPrice: 0, img: "costume (1).jpg", badge: "new" },
-    { id: 31, name: "Smoking noir", category: "Homme", subcategory: "Costumes", price: 180000, oldPrice: 0, img: "costume (2).jpg", badge: "" },
-    { id: 32, name: "Costume Prince de Galles", category: "Homme", subcategory: "Costumes", price: 110000, oldPrice: 0, img: "costume (3).jpg", badge: "" },
-    { id: 33, name: "Chemise Manches Longues", category: "Homme", subcategory: "Chemises", price: 20000, oldPrice: 0, img: "chemise (1).jpg", badge: "" },
-    { id: 34, name: "Chemise Blanche", category: "Homme", subcategory: "Chemises", price: 18000, oldPrice: 0, img: "chemise (2).jpg", badge: "" },
-    { id: 35, name: "Chemise manches courtes", category: "Homme", subcategory: "Chemises", price: 15000, oldPrice: 0, img: "chemise (3).jpg", badge: "new" },
-    { id: 36, name: "Chemise Oversize", category: "Homme", subcategory: "Chemises", price: 25000, oldPrice: 0, img: "chemise (4).jpg", badge: "new" },
-    { id: 37, name: "T-Shirt Balenciaga", category: "Homme", subcategory: "T-Shirts", price: 12000, oldPrice: 0, img: "T-shirthomme (1).jpg", badge: "" },
-    { id: 38, name: "T-Shirt luiviton", category: "Homme", subcategory: "T-Shirts", price: 15000, oldPrice: 0, img: "T-shirthomme (2).jpg", badge: "" },
-    { id: 39, name: "T-Shirt GUCCI", category: "Homme", subcategory: "T-Shirts", price: 10000, oldPrice: 0, img: "T-shirthomme (3).jpg", badge: "" },
-    { id: 40, name: "T-Shirt OFF", category: "Homme", subcategory: "T-Shirts", price: 10000, oldPrice: 0, img: "T-shirthomme (4).jpg", badge: "" },
-    { id: 41, name: "AMIRI-Black jeans", category: "Homme", subcategory: "Pantalons", price: 45000, oldPrice: 0, img: "pantalonhomme (1).jpg", badge: "new" },
-    { id: 42, name: "Chrome Hearts jeans", category: "Homme", subcategory: "Pantalons", price: 36500, oldPrice: 50000, img: "pantalonhomme (2).jpg", badge: "sale" },
-    { id: 43, name: "AMIRI Black Baggy Fit jeans", category: "Homme", subcategory: "Pantalons", price: 40000, oldPrice: 0, img: "pantalonhomme (3).jpg", badge: "" },
-    { id: 44, name: "AMIRI-MX1", category: "Homme", subcategory: "Pantalons", price: 30000, oldPrice: 0, img: "pantalonhomme (4).jpg", badge: "" },
-    { id: 45, name: "NIKE", category: "Homme", subcategory: "Chaussures", price: 55000, oldPrice: 0, img: "chaussureshomme (1).jpg", badge: "" },
-    { id: 46, name: "NEW BALANCE", category: "Homme", subcategory: "Chaussures", price: 50000, oldPrice: 65000, img: "chaussureshomme (2).jpg", badge: "sale" },
-    { id: 47, name: "NIKE", category: "Homme", subcategory: "Chaussures", price: 58000, oldPrice: 0, img: "chaussureshomme (3).jpg", badge: "" },
-    { id: 48, name: "NIKE Air Force", category: "Homme", subcategory: "Chaussures", price: 58500, oldPrice: 0, img: "chaussureshomme (4).jpg", badge: "" },
-    { id: 53, name: "Robe Fillette", category: "Enfant", subcategory: "Filles", price: 52000, oldPrice: 0, img: "filles (1).jpg", badge: "new" },
-    { id: 54, name: "Assembles", category: "Enfant", subcategory: "Filles", price: 45000, oldPrice: 0, img: "filles (2).jpg", badge: "" },
-    { id: 55, name: "Assembles", category: "Enfant", subcategory: "Filles", price: 49000, oldPrice: 0, img: "filles (3).jpg", badge: "" },
-    { id: 56, name: "Robes princesses", category: "Enfant", subcategory: "Filles", price: 29000, oldPrice: 0, img: "filles (4).jpg", badge: "new" },
-    { id: 57, name: "Assemble", category: "Enfant", subcategory: "Garçons", price: 28000, oldPrice: 0, img: "garcons (1).jpg", badge: "" },
-    { id: 58, name: "Assemble sport", category: "Enfant", subcategory: "Garçons", price: 30000, oldPrice: 0, img: "garcons (2).jpg", badge: "" },
-    { id: 59, name: "Assemble", category: "Enfant", subcategory: "Garçons", price: 25000, oldPrice: 0, img: "garcons (3).jpg", badge: "" },
-    { id: 60, name: "Veste enfant", category: "Enfant", subcategory: "Garçons", price: 35000, oldPrice: 0, img: "garcons (4).jpg", badge: "" },
-    { id: 61, name: "Ensemble Bébé", category: "Enfant", subcategory: "Bébés", price: 15000, oldPrice: 0, img: "bébé (1).jpg", badge: "" },
-    { id: 62, name: "Ensemble Bébé", category: "Enfant", subcategory: "Bébés", price: 18000, oldPrice: 0, img: "bébé (2).jpg", badge: "new" },
-    { id: 63, name: "Ensemble Bébé", category: "Enfant", subcategory: "Bébés", price: 10000, oldPrice: 0, img: "bébé (3).jpg", badge: "" },
-    { id: 64, name: "Ensemble Bébé", category: "Enfant", subcategory: "Bébés", price: 16000, oldPrice: 0, img: "bébé (4).jpg", badge: "" },
-    { id: 65, name: "Chaussures Enfant", category: "Enfant", subcategory: "Chaussures", price: 10000, oldPrice: 0, img: "basketkidsA.jpg", badge: "" },
-    { id: 66, name: "Chaussures Enfant", category: "Enfant", subcategory: "Chaussures", price: 7000, oldPrice: 0, img: "basketkidsB.jpg", badge: "" },
-];
+// ===== CART STATE =====
+let cart = JSON.parse(localStorage.getItem('zandoCart')) || [];
 
-/* =========================================================
-   OPTIONS DE TAILLE / COULEUR PAR DÉFAUT
-   ========================================================= */
-
-const DEFAULT_SIZES = ['S', 'M', 'L', 'XL', 'XXL'];
-
-const COLOR_MAP = {
-    'noir': '#000000', 'noire': '#000000',
-    'blanc': '#FFFFFF', 'blanche': '#FFFFFF',
-    'rouge': '#EF4444',
-    'bleu': '#2563EB',
-    'vert': '#10B981',
-    'jaune': '#FACC15',
-    'orange': '#F59E0B',
-    'rose': '#EC4899',
-    'gris': '#9CA3AF', 'grise': '#9CA3AF',
-    'beige': '#D2B48C',
-    'marron': '#8B4513',
-    'violet': '#8B5CF6',
-    'bleu foncé': '#00008B',
-};
-
-const DEFAULT_COLORS = [
-    { name: 'Noir', value: '#000000' },
-    { name: 'Blanc', value: '#FFFFFF' },
-    { name: 'Rouge', value: '#EF4444' },
-    { name: 'Bleu', value: '#2563EB' },
-    { name: 'Beige', value: '#D2B48C' },
-    { name: 'Gris', value: '#9CA3AF' },
-    { name: 'bleu foncé', value: '#00008B' },
-];
-
-/* Normalise les tailles / couleurs : un produit sans définition
-   reçoit les valeurs par défaut. Les couleurs en chaîne simple
-   (Firestore / localStorage) sont converties en {name, value}. */
-function normalizeOptions(product) {
-    if (!product) return product;
-    if (!Array.isArray(product.sizes) || product.sizes.length === 0) {
-        product.sizes = DEFAULT_SIZES.slice();
-    }
-    if (!Array.isArray(product.colors) || product.colors.length === 0) {
-        product.colors = DEFAULT_COLORS.map(c => ({ name: c.name, value: c.value }));
-    } else {
-        product.colors = product.colors.map(c => {
-            if (typeof c === 'string') {
-                return { name: c, value: COLOR_MAP[c.toLowerCase()] || c };
-            }
-            if (c && typeof c === 'object') {
-                const name = c.name || c.label || c.value || '';
-                return {
-                    name: name,
-                    value: c.value || COLOR_MAP[String(name).toLowerCase()] || '#888888'
-                };
-            }
-            return { name: String(c), value: '#888888' };
-        });
-    }
-    return product;
+// ===== FORMAT PRICE =====
+function formatPrice(price) {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " FC";
 }
 
-/* Applique les tailles / couleurs par défaut aux produits statiques */
-products.forEach(normalizeOptions);
+// ===== FIRESTORE SYNC =====
+async function loadProductsFromFirestore() {
+    try {
+        const snapshot = await db.collection('products').get();
+        const firestoreProducts = [];
+        snapshot.forEach(doc => {
+            firestoreProducts.push({ id: doc.id, ...doc.data() });
+        });
+        return firestoreProducts;
+    } catch (error) {
+        console.error('Erreur chargement Firestore:', error);
+        return null;
+    }
+}
 
-window.DEFAULT_SIZES = DEFAULT_SIZES;
-window.DEFAULT_COLORS = DEFAULT_COLORS;
-window.COLOR_MAP = COLOR_MAP;
-window.normalizeOptions = normalizeOptions;
+async function initProducts() {
+    const existingIds = new Set(products.map(p => p.id));
+
+    const localProducts = JSON.parse(localStorage.getItem('zandoProducts')) || [];
+    localProducts.forEach(p => {
+        if (!existingIds.has(p.id)) {
+            products.push(p);
+            existingIds.add(p.id);
+        }
+    });
+
+    try {
+        const firestoreProducts = await loadProductsFromFirestore();
+        if (firestoreProducts && firestoreProducts.length > 0) {
+            firestoreProducts.forEach(p => {
+                if (!existingIds.has(p.id)) {
+                    products.push(p);
+                    existingIds.add(p.id);
+                }
+            });
+        }
+    } catch (error) {
+        console.error('Erreur Firestore, utilisation du catalogue local + localStorage:', error);
+    }
+
+    document.dispatchEvent(new CustomEvent('products-loaded'));
+}
+
+// ===== RENDER HELPERS =====
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    })[char]);
+}
+
+function createProductCard(product) {
+    normalizeOptions(product);
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.classList.add('product-card-animate');
+    card.dataset.category = product.category || '';
+
+    if (product.badge) {
+        const badge = document.createElement('div');
+        badge.className = `product-badge ${product.badge}`;
+        badge.textContent = product.badge === 'sale' ? 'PROMO' : 'NOUVEAU';
+        card.appendChild(badge);
+    }
+
+    const imageContainer = document.createElement('div');
+    imageContainer.className = 'product-image';
+
+    const img = document.createElement('img');
+    img.loading = 'lazy';
+    img.alt = product.name || '';
+    img.onerror = () => {
+        imageContainer.innerHTML = `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#f1f5f9;color:#94a3b8;font-size:0.8rem;padding:0.5rem;text-align:center;word-break:break-all;">Image: ${product.img || 'aucune'}</div>`;
+    };
+    img.src = product.img || '';
+    imageContainer.appendChild(img);
+
+    card.appendChild(imageContainer);
+
+    const info = document.createElement('div');
+    info.className = 'product-info';
+
+    const title = document.createElement('h3');
+    title.textContent = product.name || 'Produit sans nom';
+    info.appendChild(title);
+
+    const categoryEl = document.createElement('div');
+    categoryEl.className = 'product-category';
+    categoryEl.textContent = product.subcategory || '';
+    info.appendChild(categoryEl);
+
+    const priceEl = document.createElement('div');
+    priceEl.className = 'product-price';
+
+    const currentPrice = document.createElement('span');
+    currentPrice.className = 'current-price';
+    currentPrice.textContent = formatPrice(product.price);
+    priceEl.appendChild(currentPrice);
+
+    if (product.oldPrice) {
+        const oldPrice = document.createElement('span');
+        oldPrice.className = 'old-price';
+        oldPrice.textContent = formatPrice(product.oldPrice);
+        priceEl.appendChild(oldPrice);
+    }
+    info.appendChild(priceEl);
+
+    if (Array.isArray(product.colors) && product.colors.length) {
+        const colorWrap = document.createElement('div');
+        colorWrap.className = 'variant-selector color-selector';
+
+        const colorLabel = document.createElement('span');
+        colorLabel.className = 'variant-label';
+        colorLabel.textContent = 'Couleur :';
+        colorWrap.appendChild(colorLabel);
+
+        product.colors.forEach((c, i) => {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = 'color-dot';
+            dot.dataset.color = c.value;
+            dot.setAttribute('title', c.name);
+            dot.style.background = c.value;
+            dot.style.borderColor = c.value === '#FFFFFF' ? 'rgba(0,0,0,.2)' : 'transparent';
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                colorWrap.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+                dot.classList.add('active');
+            });
+            colorWrap.appendChild(dot);
+        });
+        info.appendChild(colorWrap);
+    }
+
+    if (Array.isArray(product.sizes) && product.sizes.length) {
+        const sizeWrap = document.createElement('div');
+        sizeWrap.className = 'variant-selector size-selector';
+
+        const sizeLabel = document.createElement('span');
+        sizeLabel.className = 'variant-label';
+        sizeLabel.textContent = 'Taille :';
+        sizeWrap.appendChild(sizeLabel);
+
+        product.sizes.forEach((s, i) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'size-btn';
+            btn.dataset.size = s;
+            btn.textContent = s;
+            if (i === 0) btn.classList.add('active');
+            btn.addEventListener('click', () => {
+                sizeWrap.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+            sizeWrap.appendChild(btn);
+        });
+        info.appendChild(sizeWrap);
+    }
+
+    const actions = document.createElement('div');
+    actions.className = 'product-actions';
+
+    const btn = document.createElement('button');
+    btn.className = 'btn-add-cart';
+    btn.dataset.productId = product.id;
+    btn.textContent = 'Ajouter au panier';
+    actions.appendChild(btn);
+
+    info.appendChild(actions);
+    card.appendChild(info);
+
+    return card;
+}
+
+// ===== RENDER PRODUCTS =====
+function renderProducts(category = 'all', containerId = 'productGrid') {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    let filtered = category === 'all'
+        ? products
+        : products.filter(p => p.category === category);
+
+    container.innerHTML = '';
+    filtered.forEach((product, index) => {
+        const card = createProductCard(product);
+        card.style.animationDelay = (index * 0.05) + 's';
+        container.appendChild(card);
+    });
+
+    attachCartListeners(container);
+}
+
+function attachCartListeners(container) {
+    container.querySelectorAll('.btn-add-cart').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const productId = e.currentTarget.dataset.productId;
+            if (!productId) return;
+            const card = e.currentTarget.closest('.product-card');
+            const sizeBtn = card ? card.querySelector('.size-btn.active') : null;
+            const colorDot = card ? card.querySelector('.color-dot.active') : null;
+            const selectedSize = sizeBtn ? sizeBtn.dataset.size : null;
+            const selectedColor = colorDot ? colorDot.dataset.color : null;
+            addToCart(productId, selectedSize, selectedColor);
+        });
+    });
+}
+
+// ===== ADD TO CART =====
+function addToCart(productId, size, color) {
+
+    const product = products.find(
+        p => String(p.id) === String(productId)
+    );
+
+    if (!product) {
+        console.error('Produit introuvable :', productId);
+        return;
+    }
+
+    let colorLabel = color;
+    if (color) {
+        const match = product.colors
+            ? product.colors.find(c => c.value === color)
+            : null;
+        if (match) colorLabel = match.name;
+    }
+
+    const existingItem = cart.find(
+        item => String(item.id) === String(productId)
+            && item.size === size
+            && item.color === colorLabel
+    );
+
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            ...product,
+            quantity: 1,
+            size: size || null,
+            color: colorLabel || null
+        });
+    }
+
+    saveCart();
+    updateCartUI();
+
+    let added = `<strong>${product.name}</strong> ajouté au panier`;
+    if (size) added += ` (Taille: ${size})`;
+    if (colorLabel) added += ` (Couleur: ${colorLabel})`;
+
+    showNotification(
+        '✓',
+        added
+    );
+    
+    const cartBtn = document.querySelector('.cart-btn');
+    cartBtn.style.transform = 'scale(1.2)';
+    setTimeout(() => { cartBtn.style.transform = 'scale(1)'; }, 300);
+}
+
+function getItemId(item) {
+    if (item.itemId) return item.itemId;
+    return String(item.id) + '|' + (item.size || '') + '|' + (item.color || '');
+}
+
+// ===== REMOVE FROM CART =====
+function removeFromCart(itemId) {
+    cart = cart.filter(item => getItemId(item) !== String(itemId));
+    saveCart();
+    updateCartUI();
+}
+
+// ===== UPDATE QUANTITY =====
+function updateQuantity(itemId, delta) {
+    const item = cart.find(item => String(getItemId(item)) === String(itemId));
+    if (!item) return;
+    
+    item.quantity += delta;
+    
+    if (item.quantity <= 0) {
+        removeFromCart(getItemId(item));
+        return;
+    }
+    
+    saveCart();
+    updateCartUI();
+}
+
+// ===== SAVE CART =====
+function saveCart() {
+    localStorage.setItem('zandoCart', JSON.stringify(cart));
+}
+
+// ===== UPDATE CART UI =====
+function updateCartUI() {
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const cartCount = document.getElementById('cartCount');
+    if (cartCount) cartCount.textContent = totalItems;
+    
+    const cartItemsContainer = document.getElementById('cartItems');
+    if (!cartItemsContainer) return;
+    
+    if (cart.length === 0) {
+        cartItemsContainer.innerHTML = `
+            <div class="cart-empty">
+                <div class="empty-icon">🛒</div>
+                <h4>Votre panier est vide</h4>
+                <p>Ajoutez des articles depuis notre boutique</p>
+            </div>
+        `;
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        if (checkoutBtn) checkoutBtn.disabled = true;
+        const cartTotal = document.getElementById('cartTotal');
+        if (cartTotal) cartTotal.textContent = '0 FC';
+        return;
+    }
+    
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    if (checkoutBtn) checkoutBtn.disabled = false;
+    
+    cartItemsContainer.innerHTML = cart.map(item => {
+        const cartItemId = getItemId(item);
+        let variant = '';
+        if (item.size || item.color) {
+            const parts = [];
+            if (item.size) parts.push('Taille : ' + item.size);
+            if (item.color) parts.push('Couleur : ' + item.color);
+            variant = `<div class="cart-item-variant">${parts.join(' · ')}</div>`;
+        }
+
+        return `
+        <div class="cart-item">
+            <div class="cart-item-image">
+                <img src="${item.img}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" onerror="this.parentElement.innerHTML='📷'">
+            </div>
+            <div class="cart-item-details">
+                <h4>${item.name}</h4>
+                ${variant}
+                <div class="cart-item-price">${formatPrice(item.price)}</div>
+                <div class="cart-item-qty">
+                    <button class="qty-btn" onclick="updateQuantity('${escapeHtml(cartItemId)}', -1)">−</button>
+                    <span class="qty-value">${item.quantity}</span>
+                    <button class="qty-btn" onclick="updateQuantity('${escapeHtml(cartItemId)}', 1)">+</button>
+                    <button class="remove-item" onclick="removeFromCart('${escapeHtml(cartItemId)}')">Supprimer</button>
+                </div>
+            </div>
+        </div>
+    `;
+    }).join('');
+    
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const cartTotal = document.getElementById('cartTotal');
+    if (cartTotal) cartTotal.textContent = formatPrice(total);
+}
+
+// ===== TOGGLE CART =====
+function toggleCart() {
+    const sidebar = document.getElementById('cartSidebar');
+    const overlay = document.getElementById('cartOverlay');
+    if (sidebar) sidebar.classList.toggle('open');
+    if (overlay) overlay.classList.toggle('open');
+    document.body.style.overflow = sidebar && sidebar.classList.contains('open') ? 'hidden' : '';
+}
+
+// ===== CHECKOUT VIA WHATSAPP =====
+function checkoutWhatsApp() {
+    if (cart.length === 0) {
+        showNotification('⚠️', 'Votre panier est vide');
+        return;
+    }
+    
+    const phoneNumber = '243976520957';
+    
+    let message = '🛍️ *NOUVELLE COMMANDE ZANDO FASHION* 🛍️\n\n';
+    message += '📋 *Détails de la commande :*\n';
+    message += '━━━━━━━━━━━━━━━━━━\n\n';
+    
+    cart.forEach((item, index) => {
+        message += `${index + 1}. *${item.name}*\n`;
+        message += `   Quantité: ${item.quantity}\n`;
+        if (item.size) message += `   Taille: ${item.size}\n`;
+        if (item.color) message += `   Couleur: ${item.color}\n`;
+        message += `   Prix: ${formatPrice(item.price * item.quantity)}\n\n`;
+    });
+    
+    message += '━━━━━━━━━━━━━━━━━━\n';
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    message += `💰 *TOTAL: ${formatPrice(total)}*\n\n`;
+    message += '📍 *Retrait au Marché Central de Kinshasa (ZANDO)*\n';
+    message += '🚚 *Livraison disponible partout à Kinshasa*\n\n';
+    message += '✅ _Merci de votre confiance !_';
+    
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+}
+
+// ===== NOTIFICATION SYSTEM =====
+function showNotification(icon, text) {
+    const container = document.getElementById('notificationContainer');
+    if (!container) return;
+    
+    const notif = document.createElement('div');
+    notif.className = 'notification show';
+    notif.innerHTML = `
+        <span class="notif-icon">${icon}</span>
+        <span class="notif-text">${text}</span>
+    `;
+    
+    container.appendChild(notif);
+    
+    setTimeout(() => {
+        notif.classList.remove('show');
+        setTimeout(() => notif.remove(), 300);
+    }, 3000);
+}
+
+// ===== MOBILE MENU =====
+function toggleMenu() {
+    const nav = document.querySelector('nav');
+    const toggle = document.querySelector('.menu-toggle');
+    nav.classList.toggle('open');
+    
+    const spans = toggle.querySelectorAll('span');
+    if (nav.classList.contains('open')) {
+        spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+    } else {
+        spans[0].style.transform = 'none';
+        spans[1].style.opacity = '1';
+        spans[2].style.transform = 'none';
+    }
+}
+
+// ===== FILTER BUTTONS =====
+function filterProducts(category, button) {
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    if (button) button.classList.add('active');
+    renderProducts(category);
+}
+
+// ===== NEWSLETTER =====
+function handleNewsletter(event) {
+    event.preventDefault();
+    const input = event.target.querySelector('input');
+    if (input && input.value) {
+        showNotification('✓', 'Inscription réussie à la newsletter !');
+        input.value = '';
+    }
+    return false;
+}
+
+// ===== INIT =====
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', function () {
+
+    updateCartUI();
+
+    if (window.firebaseReady) {
+        initProducts();
+    } else {
+        document.addEventListener('firebase-ready', () => {
+            initProducts();
+        });
+    }
+
+    renderProducts('all', 'productGrid');
+
+    // ===== Filtres de catégories =====
+    document.querySelectorAll('.category-filter').forEach(cb => {
+        cb.addEventListener('change', () => {
+
+            if (cb.value === 'all' && cb.checked) {
+                document.querySelectorAll('.category-filter').forEach(other => {
+                    if (other.value !== 'all') {
+                        other.checked = false;
+                    }
+                });
+            }
+
+            if (cb.value !== 'all' && cb.checked) {
+                const allCheckbox = document.querySelector(
+                    '.category-filter[value="all"]'
+                );
+
+                if (allCheckbox) {
+                    allCheckbox.checked = false;
+                }
+            }
+
+            // Utiliser directement renderProducts
+            const checked = [...document.querySelectorAll('.category-filter:checked')]
+                .map(cb => cb.value);
+
+            if (checked.length === 0 || checked.includes('all')) {
+                renderProducts('all', 'productGrid');
+            } else {
+                renderProducts(checked[0], 'productGrid');
+            }
+        });
+    });
+
+    // ===== Filtres de prix =====
+    const priceMin = document.getElementById('price-min');
+    const priceMax = document.getElementById('price-max');
+
+    if (priceMin && priceMax) {
+
+        priceMin.addEventListener('input', () => {
+
+            if (parseInt(priceMin.value) > parseInt(priceMax.value)) {
+                priceMax.value = priceMin.value;
+            }
+
+            const minLabel = document.getElementById('price-min-label');
+
+            if (minLabel) {
+                minLabel.textContent = priceMin.value + ' FC';
+            }
+        });
+
+        priceMax.addEventListener('input', () => {
+
+            if (parseInt(priceMax.value) < parseInt(priceMin.value)) {
+                priceMin.value = priceMax.value;
+            }
+
+            const maxLabel = document.getElementById('price-max-label');
+
+            if (maxLabel) {
+                maxLabel.textContent = priceMax.value + ' FC';
+            }
+        });
+    }
+
+    // ===== Tri =====
+    const sortSelect = document.getElementById('sort-select');
+
+    if (sortSelect) {
+        sortSelect.addEventListener('change', () => {
+
+            const container = document.getElementById('productGrid');
+
+            if (!container) return;
+
+            let sortedProducts = [...products];
+
+            switch (sortSelect.value) {
+
+                case 'price-low':
+                    sortedProducts.sort((a, b) => a.price - b.price);
+                    break;
+
+                case 'price-high':
+                    sortedProducts.sort((a, b) => b.price - a.price);
+                    break;
+
+                case 'newest':
+                    sortedProducts.reverse();
+                    break;
+            }
+
+            container.innerHTML = '';
+            sortedProducts.forEach((product, index) => {
+                const card = createProductCard(product);
+                card.style.animationDelay = (index * 0.05) + 's';
+                container.appendChild(card);
+            });
+            attachCartListeners(container);
+        });
+    }
+
+});
