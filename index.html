@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZANDO FASHION - Mode Africaine | Kinshasa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👗</text></svg>">
     <style>
@@ -12,7 +13,6 @@
    ZANDO FASHION PREMIUM
    Animation System v3
    ============================================================ */
-
 :root {
     --zf-ease: cubic-bezier(0.16, 1, 0.3, 1);
     --zf-ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
@@ -670,6 +670,7 @@ nav a.active::after {
         opacity: 1;
         transform: translateY(0);
     }
+    
 }
 
 
@@ -786,32 +787,9 @@ nav a.active::after {
 }
 
 
-/* Icône */
-
-.cat-icon {
-    display: inline-block;
-
-    transition:
-        transform .6s var(--zf-ease),
-        filter .4s ease;
-}
-
-.category-card:hover .cat-icon {
-    transform:
-        translateY(-7px)
-        scale(1.18)
-        rotate(-5deg);
-
-    filter:
-        drop-shadow(
-            0 8px 12px rgba(0,0,0,.2)
-        );
-}
-
-
 /* ============================================================
-   13 — FILTRES
-   ============================================================ */
+    13 — FILTRES
+    ============================================================ */
 
 .filter-btn {
     position: relative;
@@ -1796,32 +1774,33 @@ button:active {
     <!-- HEADER -->
     <header>
         <div class="container">
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <a href="index.html" class="logo">
                 <span class="logo-img">ZF</span>
                 ZANDO <span>FASHION</span>
             </a>
-            <nav>
-                <a href="index.html" class="active">Accueil</a>
-                <a href="femme.html">Femme</a>
-                <a href="homme.html">Homme</a>
-                <a href="enfant.html">Enfant</a>
-                <a href="#promos">Promotions</a>
-                <a href="#contact">Contact</a>
-                <a href="admin.html">admin</a>
-            </nav>
             <div class="header-actions">
                 <button class="cart-btn" onclick="toggleCart()">
                     🛒
                     <span class="cart-count" id="cartCount">0</span>
                 </button>
-                <div class="menu-toggle" onclick="toggleMenu()">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
             </div>
         </div>
     </header>
+
+    <nav>
+        <a href="index.html" class="active">Accueil</a>
+        <a href="femme.html">Femme</a>
+        <a href="homme.html">Homme</a>oioi
+        <a href="enfant.html">Enfant</a>
+        <a href="promos.html">Promotions</a>
+        <a href="#contact">Contact</a>
+        <a href="admin.html">admin</a>
+    </nav>
 
     <!-- HERO -->
     <section class="hero">
@@ -1839,9 +1818,7 @@ button:active {
     </section>
 
     <!-- PROMO BANNER -->
-    <div class="promo-banner" id="promos">
-        PROMO · Jusqu'à -30% sur une sélection d'articles · Livraison rapide partout à Kinshasa
-    </div>
+   
 
     <!-- CATEGORIES -->
     <section class="categories" id="categories">
@@ -1853,31 +1830,37 @@ button:active {
             </div>
             <div class="category-grid">
                 <a href="femme.html" class="category-card">
-                    <div class="category-bg femme">
-                        <div class="cat-icon">👩</div>
-                        <h3>Femme</h3>
-                        <p>Robes, pagnes, accessoires & plus</p>
+                    <div class="category-bg femme" style="background-image: url('https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=600&q=80');">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <h3>Femme</h3>
+                            <p>Robes, pagnes, accessoires & plus</p>
+                        </div>
                     </div>
                 </a>
                 <a href="homme.html" class="category-card">
-                    <div class="category-bg homme">
-                        <div class="cat-icon">👨</div>
-                        <h3>Homme</h3>
-                        <p>Costumes, chemises, chaussures</p>
+                    <div class="category-bg homme" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80');">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <h3>Homme</h3>
+                            <p>Costumes, chemises, chaussures</p>
+                        </div>
                     </div>
                 </a>
                 <a href="enfant.html" class="category-card">
-                    <div class="category-bg enfant">
-                        <div class="cat-icon">👶</div>
-                        <h3>Enfant</h3>
-                        <p>Filles, garçons & bébés</p>
+                    <div class="category-bg enfant" style="background-image: url('https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=600&q=80');">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <h3>Enfant</h3>
+                            <p>Filles, garçons & bébés</p>
+                        </div>
                     </div>
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- PRODUCTS -->
+    <!-- PRODUCTS --> 
     <section class="products-section" id="produits">
         <div class="container">
             <div class="section-title">
@@ -1886,10 +1869,15 @@ button:active {
                 <div class="divider"></div>
             </div>
             <div class="filters">
-                <button class="filter-btn active" onclick="filterProducts('all', this)">Tout</button>
-                <button class="filter-btn" onclick="filterProducts('Femme', this)">Femme</button>
-                <button class="filter-btn" onclick="filterProducts('Homme', this)">Homme</button>
-                <button class="filter-btn" onclick="filterProducts('Enfant', this)">Enfant</button>
+    <nav>
+        <a href="index.html">tout</a>
+        <a href="femme.html">Femme</a>
+        <a href="homme.html">Homme</a>
+        <a href="enfant.html" class="active">Enfant</a>
+        <a href="promos.html">Promotions</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="admin.html">admin</a>
+    </nav>
             </div>
             <div class="product-grid" id="productGrid"></div>
         </div>
@@ -1974,6 +1962,69 @@ button:active {
         </div>
     </div>
 
+    <!-- PRODUCT DETAIL OVERLAY -->
+    <div class="product-detail-overlay" id="productDetailOverlay">
+        <div class="product-detail">
+            <div class="pd-header">
+                <button class="pd-back" onclick="closeProductDetail()" aria-label="Retour">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <button class="pd-favorite" onclick="toggleFavorite()" aria-label="Favoris">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+
+            <div class="pd-gallery">
+                <div class="pd-gallery-main">
+                    <img id="pdMainImage" src="" alt="">
+                    <button class="pd-fullscreen-btn" id="pdFullscreenBtn" onclick="openFullscreen()" aria-label="Plein écran">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+                <div class="pd-gallery-indicator" id="pdGalleryIndicator">1 / 1</div>
+                <div class="pd-gallery-thumbs" id="pdGalleryThumbs"></div>
+            </div>
+
+            <div class="pd-info">
+                <div class="pd-category" id="pdCategory"></div>
+                <h1 class="pd-name" id="pdName"></h1>
+                <div class="pd-price">
+                    <span class="pd-current-price" id="pdCurrentPrice"></span>
+                    <span class="pd-old-price" id="pdOldPrice"></span>
+                </div>
+
+                <div class="pd-section" id="pdColorsSection">
+                    <div class="pd-label">Couleur</div>
+                    <div class="pd-colors" id="pdColors"></div>
+                </div>
+
+                <div class="pd-section" id="pdSizesSection">
+                    <div class="pd-label">Taille</div>
+                    <div class="pd-sizes" id="pdSizes"></div>
+                </div>
+
+                <div class="pd-section">
+                    <div class="pd-label">Disponibilité</div>
+                    <div class="pd-stock" id="pdStock"></div>
+                </div>
+
+                <button class="pd-add-cart" id="pdAddCart" onclick="addToCartFromDetail()">
+                    Ajouter au panier
+                </button>
+
+                <div class="pd-description" id="pdDescription"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FULLSCREEN IMAGE VIEWER -->
+    <div class="pd-fullscreen" id="pdFullscreen">
+        <button class="pd-fullscreen-close" onclick="closeFullscreen()" aria-label="Fermer">
+            <i class="fas fa-times"></i>
+        </button>
+        <img id="pdFullscreenImage" src="" alt="">
+    </div>
+
     <!-- NOTIFICATION CONTAINER -->
     <div id="notificationContainer"></div>
 
@@ -2035,5 +2086,6 @@ button:active {
         document.addEventListener('DOMContentLoaded', renderHomeProducts);
         document.addEventListener('products-loaded', renderHomeProducts);
     </script>
+    <div class="mobile-menu-overlay" onclick="toggleMenu()"></div>
 </body>
 </html>
