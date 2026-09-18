@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mode Homme - ZANDO FASHION | Kinshasa</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👗</text></svg>">
 <style>
 
@@ -203,25 +204,51 @@ nav a.active::after {
    ============================================================ */
 
 .cart-btn {
-    transition:
-        transform .4s var(--zf-ease),
-        box-shadow .4s ease;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.90);
+    border: none;
+    color: var(--primary);
+    font-size: 1.15rem;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
 }
 
 .cart-btn:hover {
-    transform:
-        translateY(-3px)
-        scale(1.05);
+    transform: translateY(-2px) scale(1.08);
+    background: var(--white);
+    color: var(--gold);
+    box-shadow: 0 6px 20px rgba(212, 168, 83, 0.28);
 }
 
 .cart-btn:active {
     transform: scale(.92);
 }
 
-
 /* Compteur */
 
 .cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--accent);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: var(--font-size-xs);
+    font-weight: var(--fw-bold);
+    min-width: 18px;
+    height: 18px;
+    padding: 2px 4px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     animation:
         zfCartPulse
         2.5s
@@ -1319,29 +1346,30 @@ nav a.active::after {
     </div>
     <header>
         <div class="container">
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
             <a href="index.html" class="logo">
                 <span class="logo-img">ZF</span>
                 ZANDO <span>FASHION</span>
             </a>
-            <nav>
-                <a href="index.html">Accueil</a>
-                <a href="femme.html">Femme</a>
-                <a href="homme.html" class="active">Homme</a>
-                <a href="enfant.html">Enfant</a>
-                <a href="index.html#promos">Promotions</a>
-                <a href="index.html#contact">Contact</a>
-                <a href="admin.html">admin</a>
-            </nav>
             <div class="header-actions">
                 <button class="cart-btn" onclick="toggleCart()">
-                    🛒 <span class="cart-count" id="cartCount">0</span>
+                    <img class="cart-icon" src="images/cart-icon.png" alt="Panier" width="24" height="24"> <span class="cart-count" id="cartCount">0</span>
                 </button>
-                <div class="menu-toggle" onclick="toggleMenu()">
-                    <span></span><span></span><span></span>
-                </div>
             </div>
         </div>
     </header>
+
+    <nav>
+        <a href="index.html">Accueil</a>
+        <a href="femme.html">Femme</a>
+        <a href="homme.html" class="active">Homme</a>
+        <a href="enfant.html">Enfant</a>
+        <a href="promos.html">Promotions</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="admin.html">admin</a>
+    </nav>
 
     <section class="page-header">
         <div class="container">
@@ -1387,7 +1415,7 @@ nav a.active::after {
                         <li><a href="femme.html">Mode Femme</a></li>
                         <li><a href="homme.html">Mode Homme</a></li>
                         <li><a href="enfant.html">Mode Enfant</a></li>
-                        <li><a href="index.html#promos">Promotions</a></li>
+                        <li><a href="promos.html">Promotions</a></li>
                     </ul>
                 </div>
                 <div class="footer-links">
@@ -1412,6 +1440,65 @@ nav a.active::after {
             </div>
         </div>
     </footer>
+    <!-- PRODUCT DETAIL OVERLAY -->
+    <div class="product-detail-overlay" id="productDetailOverlay">
+        <div class="product-detail">
+            <div class="pd-header">
+                <button class="pd-back" onclick="closeProductDetail()" aria-label="Retour">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+
+            <div class="pd-gallery">
+                <div class="pd-gallery-main">
+                    <img id="pdMainImage" src="" alt="">
+                    <button class="pd-fullscreen-btn" id="pdFullscreenBtn" onclick="openFullscreen()" aria-label="Plein écran">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+                <div class="pd-gallery-indicator" id="pdGalleryIndicator">1 / 1</div>
+                <div class="pd-gallery-thumbs" id="pdGalleryThumbs"></div>
+            </div>
+
+            <div class="pd-info">
+                <div class="pd-category" id="pdCategory"></div>
+                <h1 class="pd-name" id="pdName"></h1>
+                <div class="pd-price">
+                    <span class="pd-current-price" id="pdCurrentPrice"></span>
+                    <span class="pd-old-price" id="pdOldPrice"></span>
+                </div>
+
+                <div class="pd-section" id="pdColorsSection">
+                    <div class="pd-label">Couleur</div>
+                    <div class="pd-colors" id="pdColors"></div>
+                </div>
+
+                <div class="pd-section" id="pdSizesSection">
+                    <div class="pd-label">Taille</div>
+                    <div class="pd-sizes" id="pdSizes"></div>
+                </div>
+
+                <div class="pd-section">
+                    <div class="pd-label">Disponibilité</div>
+                    <div class="pd-stock" id="pdStock"></div>
+                </div>
+
+                <button class="pd-add-cart" id="pdAddCart" onclick="addToCartFromDetail()">
+                    Ajouter au panier
+                </button>
+
+                <div class="pd-description" id="pdDescription"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FULLSCREEN IMAGE VIEWER -->
+    <div class="pd-fullscreen" id="pdFullscreen">
+        <button class="pd-fullscreen-close" onclick="closeFullscreen()" aria-label="Fermer">
+            <i class="fas fa-times"></i>
+        </button>
+        <img id="pdFullscreenImage" src="" alt="">
+    </div>
 
     <div class="cart-overlay" id="cartOverlay"></div>
     <div class="cart-sidebar" id="cartSidebar">
@@ -1505,6 +1592,7 @@ nav a.active::after {
     }
 
 })();
-</script>
+    </script>
+    <div class="mobile-menu-overlay" onclick="toggleMenu()"></div>
 </body>
 </html>
