@@ -207,23 +207,46 @@ nav a.active::after {
 
 .cart-btn {
     position: relative;
-
-    transition:
-        transform .4s var(--zf-ease),
-        box-shadow .4s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.90);
+    border: none;
+    color: var(--primary);
+    font-size: 1.15rem;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
 }
 
 .cart-btn:hover {
-    transform:
-        translateY(-3px)
-        scale(1.05);
+    transform: translateY(-2px) scale(1.08);
+    background: var(--white);
+    color: var(--gold);
+    box-shadow: 0 6px 20px rgba(212, 168, 83, 0.28);
 }
 
 .cart-btn:active {
-    transform: scale(.9);
+    transform: scale(.92);
 }
 
+/* Compteur */
+
 .cart-count {
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: var(--font-size-xs);
+    font-weight: var(--fw-bold);
+    min-width: 18px;
+    height: 18px;
+    padding: 2px 4px;
+    border-radius: 50%;
+    display: flex;
+    align-items: left;
+    justify-content: left;
     animation:
         zfCartPulse
         2.5s
@@ -733,7 +756,6 @@ nav a.active::after {
     transform: translateY(-10px);
     filter: brightness(1.04);
 }
-
 
 .category-bg {
     position: relative;
@@ -1525,6 +1547,36 @@ button:active {
     }
 }
 
+/* =========================================================
+   FOOTER
+   ========================================================= */
+   .footer {
+    background: var(--dark);
+    color: var(--white);
+    padding: 60px 0 0;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.footer-about p {
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.footer-bottom {
+    padding: 20px 0;
+    text-align: center;
+    color: rgb(247, 231, 231);
+    font-size: 0.85rem;
+    font-weight: 550;
+}
 
 /* =========================================================
    LOGO
@@ -1767,8 +1819,7 @@ button:active {
 
     <!-- ANNOUNCEMENT BAR -->
     <div class="announcement">
-        Livraison gratuite à Kinshasa dès 250 000 FC d'achat · +243 860
-         848 141
+        Livraison gratuite à Kinshasa dès 250 000 FC d'achat 
     </div>
 
     <!-- HEADER -->
@@ -1780,13 +1831,11 @@ button:active {
                 <span></span>
             </button>
             <a href="index.html" class="logo">
-                <span class="logo-img">ZF</span>
-                ZANDO <span>FASHION</span>
+                <span class="logo-img">ZF</span>ZANDO<span>FASHION</span>
             </a>
             <div class="header-actions">
-                <button class="cart-btn" onclick="toggleCart()">
-                    🛒
-                    <span class="cart-count" id="cartCount">0</span>
+               <button class="cart-btn" onclick="toggleCart()">
+                    <img class="cart-icon" src="images/cart-icon.png" alt="Panier" width="24" height="24"> <span class="cart-count" id="cartCount">0</span>
                 </button>
             </div>
         </div>
@@ -1795,7 +1844,7 @@ button:active {
     <nav>
         <a href="index.html" class="active">Accueil</a>
         <a href="femme.html">Femme</a>
-        <a href="homme.html">Homme</a>oioi
+        <a href="homme.html">Homme</a>
         <a href="enfant.html">Enfant</a>
         <a href="promos.html">Promotions</a>
         <a href="#contact">Contact</a>
@@ -1915,23 +1964,23 @@ button:active {
             </div>
         </div>
     </section>
-
     <!-- NEWSLETTER -->
     <section class="newsletter" id="contact">
         <div class="container">
             <h3>Restez informé</h3>
             <p>Soyez notifié des nouvelles collections et des promotions exclusives</p>
             <form class="newsletter-form" onsubmit="return handleNewsletter(event)">
-                <input type="email" placeholder="Votre adresse email" required>
-                <button type="submit" class="btn btn-primary">S'inscrire</button>
+                <input type="email" placeholder="Entrer votre adresse email" required>
+                <button type="submit" class="btn btn-primary"><a href="mailto:zandofashion@gmail.com">contactez-nous</a></button>
             </form>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
-        <div class="footer-section">
-            </div>
+        <div class="footer-bottom">
+           <p>© 2026 SHAKO serge XHUNTER. Tous droits réservés</p>
+        </div>
 
     </footer>
 
@@ -1968,9 +2017,6 @@ button:active {
             <div class="pd-header">
                 <button class="pd-back" onclick="closeProductDetail()" aria-label="Retour">
                     <i class="fas fa-arrow-left"></i>
-                </button>
-                <button class="pd-favorite" onclick="toggleFavorite()" aria-label="Favoris">
-                    <i class="far fa-heart"></i>
                 </button>
             </div>
 
