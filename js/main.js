@@ -1,6 +1,5 @@
 // ===== CART STATE =====
 let cart = JSON.parse(localStorage.getItem('zandoCart')) || [];
-function toggleMenu() {
 // ===== Statistiques de visite (localStorage, comptage simple) =====
 let visitTracked = false;
 
@@ -11,36 +10,14 @@ function getSessionToken() {
         sessionStorage.setItem('zandoSessionToken', token);
     }
     return token;
-}}
-
+}
 function trackVisit() {
     if (visitTracked) return;
     visitTracked = true;
 
     const token = getSessionToken();
 
-    // Visite = chaque chargement de page du store (comptage simple et testable)
-    const today = new Date().toISOString().slice(0, 10);
-    const todayKey = 'zandoVisits_today';
-    let todayData = JSON.parse(localStorage.getItem(todayKey) || '{}');
-    if (todayData.date !== today) todayData = { date: today, count: 0 };
-    todayData.count += 1;
-    localStorage.setItem(todayKey, JSON.stringify(todayData));
-
-    const month = new Date().toISOString().slice(0, 7);
-    const monthKey = 'zandoVisits_month';
-    let monthData = JSON.parse(localStorage.getItem(monthKey) || '{}');
-    if (monthData.month !== month) monthData = { month: month, count: 0 };
-    monthData.count += 1;
-    localStorage.setItem(monthKey, JSON.stringify(monthData));
-
-    // Un visiteur unique = une session de navigation (nouvel onglet/incognito)
-    const uniqueKey = 'zandoUniqueVisitors';
-    let unique = JSON.parse(localStorage.getItem(uniqueKey) || '[]');
-    if (!unique.includes(token)) {
-        unique.push(token);
-        localStorage.setItem(uniqueKey, JSON.stringify(unique));
-    }
+    
 }
 
 // ===== FORMAT PRICE =====
@@ -124,9 +101,9 @@ function createProductCard(product) {
     img.loading = 'lazy';
     img.alt = product.name || '';
     img.onerror = () => {
-        imageContainer.innerHTML = `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#f1f5f9;color:#94a3b8;font-size:0.8rem;padding:0.5rem;text-align:center;word-break:break-all;">Image: ${product.img || 'aucune'}</div>`;
+        imageContainer.innerHTML = `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#f1f5f9;color:#94a3b8;font-size:0.8rem;padding:0.5rem;text-align:center;word-break:break-all;"><i class="fas fa-image" style="font-size:2rem;display:block;margin-bottom:6px;"></i>Image indisponible</div>`;
     };
-    img.src = product.img || '';
+    img.src = product.img || product.image || '';
     imageContainer.appendChild(img);
 
     card.appendChild(imageContainer);
@@ -331,7 +308,7 @@ function updateCartUI() {
         return `
         <div class="cart-item">
             <div class="cart-item-image">
-                <img src="${item.img}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" onerror="this.parentElement.innerHTML='📷'">
+                <img src="${item.img || item.image}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" onerror="this.parentElement.innerHTML='📷'">
             </div>
             <div class="cart-item-details">
                 <h4>${item.name}</h4>
@@ -481,8 +458,11 @@ function openProductDetail(product) {
     const indicator = document.getElementById('pdGalleryIndicator');
     thumbs.innerHTML = '';
 
-    const images = [product.img, product.image].filter(Boolean);
-    const uniqueImages = [...new Set(images)];
+const images = Array.isArray(product.images) && product.images.length
+    ? product.images
+    : [product.img || product.image].filter(Boolean);
+
+const uniqueImages = [...new Set(images)];
 
     if (uniqueImages.length === 0) {
         mainImg.src = '';
@@ -718,8 +698,7 @@ function addToCartFromDetail() {
 }
 
 // ===== INIT =====
-// ===== INIT =====
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
 
     updateCartUI();
     trackVisit();
@@ -738,13 +717,7 @@ document.addEventListener('DOMContentLoaded', function () {
         menuToggle.addEventListener('click', toggleMenu);
     }
 
-    if (window.firebaseReady) {
-        initProducts();
-    } else {
-        document.addEventListener('firebase-ready', () => {
-            initProducts();
-        });
-    }
+    await initProducts();
 
     renderProducts('all', 'productGrid');
 
