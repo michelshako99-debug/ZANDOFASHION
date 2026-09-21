@@ -1,5 +1,4 @@
-const products = [
-    ];
+const products=[];
 
 /* =========================================================
    OPTIONS DE TAILLE / COULEUR PAR DÉFAUT
