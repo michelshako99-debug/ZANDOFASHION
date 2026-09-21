@@ -1,5 +1,5 @@
 // ===== Variables globales =====
-let adminProducts = [];
+let adminProducts = []; 
 
 /* Palette élargie de couleurs utilisables dans le sélecteur visuel */
 const ADMIN_COLORS = [
@@ -107,11 +107,6 @@ async function handleLogout() {
 }
 
 // ===== Affichage des vues =====
-function showLogin() {
-    document.getElementById('login-container').style.display = 'block';
-    document.getElementById('admin-dashboard').style.display = 'none';
-    document.getElementById('admin-header-actions').style.display = 'none';
-}
 
 function showDashboard() {
     document.getElementById('login-container').style.display = 'none';
@@ -128,7 +123,6 @@ function showDashboard() {
 
 // ===== Gestion des produits =====
 async function loadAdminProducts() {
-    trackVisit();
     const products = await loadProductsFromFirebase();
     if (products) {
         adminProducts = products;
@@ -142,9 +136,10 @@ async function loadAdminProducts() {
     }
 }
 
-// Produits locaux de secours (identiques au site public)
+// Produits locaux de secours (ce que le site public utilise aussi)
 function getLocalProducts() {
-    return products;
+    const local = JSON.parse(localStorage.getItem('zandoProducts')) || [];
+    return [...products, ...local.filter(p => !products.some(sp => String(sp.id) === String(p.id)))];
 }
 
 // ===== Affichage du tableau =====
@@ -216,45 +211,6 @@ function formatAdminPrice(price) {
     return parseFloat(price).toFixed(2).replace('.', ',') + ' FC';
 }
 
-// ===== Statistiques de visite (localStorage, comptage simple) =====
-function getSessionToken() {
-    let token = sessionStorage.getItem('zandoSessionToken');
-    if (!token) {
-        token = Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
-        sessionStorage.setItem('zandoSessionToken', token);
-    }
-    return token;
-}
-
-function trackVisit() {
-    if (sessionStorage.getItem('visitRecorded') === '1') return;
-
-    const token = getSessionToken();
-
-    const today = new Date().toISOString().slice(0, 10);
-    const todayKey = 'zandoVisits_today';
-    let todayData = JSON.parse(localStorage.getItem(todayKey) || '{}');
-    if (todayData.date !== today) todayData = { date: today, count: 0 };
-    todayData.count += 1;
-    localStorage.setItem(todayKey, JSON.stringify(todayData));
-
-    const month = new Date().toISOString().slice(0, 7);
-    const monthKey = 'zandoVisits_month';
-    let monthData = JSON.parse(localStorage.getItem(monthKey) || '{}');
-    if (monthData.month !== month) monthData = { month: month, count: 0 };
-    monthData.count += 1;
-    localStorage.setItem(monthKey, JSON.stringify(monthData));
-
-    const uniqueKey = 'zandoUniqueVisitors';
-    let unique = JSON.parse(localStorage.getItem(uniqueKey) || '[]');
-    if (!unique.includes(token)) {
-        unique.push(token);
-        localStorage.setItem(uniqueKey, JSON.stringify(unique));
-    }
-
-    sessionStorage.setItem('visitRecorded', '1');
-}
-
 // ===== Statistiques =====
 function updateStats() {
     document.getElementById('stat-products').textContent = adminProducts.length;
@@ -280,20 +236,47 @@ function updateStats() {
     document.getElementById('stat-unique').textContent = unique.length || 0;
 }
 
+function resetVisitStats() {
+    localStorage.removeItem('zandoVisits_today');
+    localStorage.removeItem('zandoVisits_month');
+    localStorage.removeItem('zandoUniqueVisitors');
+    sessionStorage.removeItem('zandoSessionToken');
+    updateStats();
+    showAdminToast('Statistiques de visite réinitialisées.');
+}
+
 // ===== Modal Ajouter/Modifier =====
 function openAddModal() {
+
     document.getElementById('modal-title').textContent = 'Ajouter un Produit';
+
     document.getElementById('product-id').value = '';
     document.getElementById('product-name').value = '';
     document.getElementById('product-category').value = '';
+    document.getElementById('product-subcategory').value = '';
     document.getElementById('product-badge').value = '';
     document.getElementById('product-price').value = '';
     document.getElementById('product-old-price').value = '';
     document.getElementById('product-image').value = '';
+    document.getElementById('product-images-data').value = '';
     document.getElementById('product-description').value = '';
     document.getElementById('product-sizes').value = '';
+
+    // Réinitialiser les photos
+    uploadedImageUrls = [];
+
+    const imageFilesInput = document.getElementById('product-image-files');
+    if (imageFilesInput) {
+        imageFilesInput.value = '';
+    }
+
+    const previews = document.getElementById('image-previews');
+    if (previews) {
+        previews.innerHTML = '';
+    }
+
     renderColorPalette([]);
-    document.getElementById('image-preview').style.display = 'none';
+
     document.getElementById('product-modal').classList.add('active');
 }
 
@@ -311,7 +294,6 @@ function openEditModal(productId) {
     document.getElementById('product-image').value = product.image || product.img || '';
     document.getElementById('product-description').value = product.description || '';
     document.getElementById('product-sizes').value = Array.isArray(product.sizes) ? product.sizes.join(', ') : '';
-
     const selectedColorValues = Array.isArray(product.colors)
         ? product.colors.map(c => typeof c === 'string' ? c : (c && c.value) ? c.value : null).filter(Boolean)
         : [];
@@ -328,54 +310,205 @@ function closeModal() {
     document.getElementById('product-modal').classList.remove('active');
 }
 
+let lastUploadSuccessful = false;
+
 // ===== Soumission du formulaire produit =====
 async function handleProductSubmit(event) {
+
     event.preventDefault();
 
-    const productId = document.getElementById('product-id').value;
-    const productData = {
-        name: document.getElementById('product-name').value,
-        category: document.getElementById('product-category').value,
-        subcategory: document.getElementById('product-subcategory').value || '',
-        price: parseFloat(document.getElementById('product-price').value),
-        oldPrice: document.getElementById('product-old-price').value ? parseFloat(document.getElementById('product-old-price').value) : null,
-        img: document.getElementById('product-image').value,
-        badge: document.getElementById('product-badge').value || '',
-        description: document.getElementById('product-description').value,
-        sizes: document.getElementById('product-sizes').value
-            ? document.getElementById('product-sizes').value.split(',').map(s => s.trim()).filter(Boolean)
-            : [],
-        colors: getSelectedColors() || []
-    };
+    const imageUrl = document.getElementById('product-image').value;
+
+    const imagesData =
+        document.getElementById('product-images-data').value;
+
+    let imageUrls = [];
 
     try {
-        if (productId) {
-            // Modification
-            await updateProductInFirebase(productId, productData);
-            showAdminToast('Produit modifié avec succès !');
-        } else {
-            // Ajout
-            await addProductToFirebase(productData);
-            showAdminToast('Produit ajouté avec succès !');
-        }
-        closeModal();
-        loadAdminProducts();
+
+        imageUrls = imagesData ? JSON.parse(imagesData) : [];
+
     } catch (error) {
-        // Fallback local si Firebase n'est pas configuré
+
+        imageUrls = [];
+
+    }
+
+    // Compatibilité avec les anciens produits à une seule image
+    if (imageUrls.length === 0 && imageUrl) {
+
+        imageUrls = [imageUrl];
+
+    }
+
+    // Au moins une photo obligatoire
+    if (imageUrls.length === 0) {
+
+        showAdminToast(
+            '⚠️ Veuillez ajouter au moins une photo au produit'
+        );
+
+        return;
+    }
+
+    // Maximum 3 photos
+    if (imageUrls.length > 3) {
+
+        showAdminToast(
+            '⚠️ Maximum 3 photos par produit.'
+        );
+
+        return;
+    }
+
+    // ===== ID DU PRODUIT =====
+
+    const productId =
+        document.getElementById('product-id').value;
+
+    // ===== DONNÉES DU PRODUIT =====
+
+    const productData = {
+
+        name:
+            document.getElementById('product-name').value,
+
+        category:
+            document.getElementById('product-category').value,
+
+        subcategory:
+            document.getElementById('product-subcategory').value || '',
+
+        price:
+            parseFloat(
+                document.getElementById('product-price').value
+            ),
+
+        oldPrice:
+            document.getElementById('product-old-price').value
+                ? parseFloat(
+                    document.getElementById('product-old-price').value
+                )
+                : null,
+
+        // Première photo
+        img: imageUrls[0],
+
+        // Galerie de 1 à 3 photos
+        images: imageUrls,
+
+        badge:
+            document.getElementById('product-badge').value || '',
+
+        description:
+            document.getElementById('product-description').value,
+
+        sizes:
+            document.getElementById('product-sizes').value
+                ? document
+                    .getElementById('product-sizes')
+                    .value
+                    .split(',')
+                    .map(s => s.trim())
+                    .filter(Boolean)
+                : [],
+
+        colors:
+            getSelectedColors() || []
+    };
+
+    // ===== ENREGISTREMENT FIREBASE =====
+
+    try {
+
         if (productId) {
-            const index = adminProducts.findIndex(p => String(p.id) === String(productId));
-            if (index !== -1) {
-                adminProducts[index] = { ...adminProducts[index], ...productData };
+
+            // Modifier un produit existant
+
+            await updateProductInFirebase(
+                productId,
+                productData
+            );
+
+            const idx =
+                adminProducts.findIndex(
+                    p => String(p.id) === String(productId)
+                );
+
+            if (idx !== -1) {
+
+                adminProducts[idx] = {
+                    ...adminProducts[idx],
+                    ...productData
+                };
+
             }
+
+            showAdminToast(
+                'Produit modifié avec succès !'
+            );
+
         } else {
-            productData.id = Date.now().toString();
+
+            // Ajouter un nouveau produit
+
+            const docRefId =
+                await addProductToFirebase(productData);
+
+            productData.id = docRefId;
+
+            adminProducts.push(productData);
+
+            showAdminToast(
+                'Produit ajouté avec succès !'
+            );
+        }
+
+    } catch (error) {
+
+        console.error(
+            'Erreur Firebase :',
+            error
+        );
+
+        // ===== MODE LOCAL =====
+
+        if (productId) {
+
+            const idx =
+                adminProducts.findIndex(
+                    p => String(p.id) === String(productId)
+                );
+
+            if (idx !== -1) {
+
+                adminProducts[idx] = {
+                    ...adminProducts[idx],
+                    ...productData
+                };
+
+            }
+
+        } else {
+
+            productData.id =
+                Date.now().toString();
+
             adminProducts.push(productData);
         }
-        renderProductsTable();
-        updateStats();
-        closeModal();
-        showAdminToast('Produit enregistré (mode local)');
+
+        showAdminToast(
+            'Produit enregistré (mode local)'
+        );
     }
+
+    // ===== MISE À JOUR DE L'ADMIN =====
+
+    renderProductsTable();
+
+    updateStats();
+
+    closeModal();
 
     saveProductsToLocal();
 }
@@ -400,73 +533,146 @@ async function handleDelete(productId) {
     saveProductsToLocal();
 }
 
-// ===== Aperçu image =====
-document.getElementById('product-image').addEventListener('input', function() {
-    const preview = document.getElementById('image-preview');
-    if (this.value) {
-        preview.src = this.value;
-        preview.style.display = 'block';
-    } else {
-        preview.style.display = 'none';
-    }
-});
+
 
 // ===== Upload d'image depuis l'appareil =====
-document.getElementById('product-image-file').addEventListener('change', async function(event) {
-    const file = event.target.files[0];
-    if (!file) return;
+// ===== Upload de 1 à 3 images vers Cloudinary =====
 
-    // Vérifier que c'est bien une image
-    if (!file.type.startsWith('image/')) {
-        showAdminToast('Veuillez sélectionner un fichier image');
-        return;
-    }
+let uploadedImageUrls = [];
 
-    // Afficher la progression
-    const progressDiv = document.getElementById('upload-progress');
-    const progressFill = document.getElementById('progress-fill');
-    const statusEl = document.getElementById('upload-status');
-    progressDiv.style.display = 'block';
-    progressFill.style.width = '10%';
-    statusEl.textContent = 'Upload en cours...';
+const imageFilesInput = document.getElementById('product-image-files');
 
-    try {
-        // Uploader l'image vers Cloudinary
-        const downloadURL = await uploadProductImage(file);
-        
-        // Mettre à jour le champ URL et l'aperçu
-        const imageInput = document.getElementById('product-image');
-        imageInput.value = downloadURL;
-        imageInput.removeAttribute('required');
-        
-        const preview = document.getElementById('image-preview');
-        preview.src = downloadURL;
-        preview.style.display = 'block';
+if (imageFilesInput) {
+    imageFilesInput.addEventListener('change', async function(event) {
 
-        // Afficher la progression complète
-        progressFill.style.width = '100%';
-        statusEl.textContent = 'Photo téléchargée avec succès !';
-        
-        setTimeout(() => {
-            progressDiv.style.display = 'none';
-        }, 2000);
+        const files = Array.from(event.target.files);
 
-        showAdminToast('Photo ajoutée avec succès !');
-    } catch (error) {
-        console.error('Erreur upload (code):', error.code);
-        console.error('Erreur upload (message):', error.message);
-        console.error('Erreur upload (objet complet):', error);
-        progressFill.style.width = '0%';
+        if (files.length === 0) return;
 
-        let userMessage = 'Erreur lors de l\'upload. Vérifiez votre connexion internet et votre configuration Cloudinary.';
-        if (error.message) {
-            userMessage = error.message;
+        // Maximum 3 photos
+        if (files.length > 3) {
+            showAdminToast('⚠️ Vous pouvez sélectionner maximum 3 photos.');
+            this.value = '';
+            return;
         }
 
-        statusEl.textContent = userMessage;
-        showAdminToast(userMessage);
-    }
-});
+        // Vérifier que tous les fichiers sont des images
+        const invalidFile = files.find(file => !file.type.startsWith('image/'));
+
+        if (invalidFile) {
+            showAdminToast('⚠️ Tous les fichiers doivent être des images.');
+            this.value = '';
+            return;
+        }
+
+        const progressDiv = document.getElementById('upload-progress');
+        const progressFill = document.getElementById('progress-fill');
+        const statusEl = document.getElementById('upload-status');
+        const previews = document.getElementById('image-previews');
+
+        progressDiv.style.display = 'block';
+        progressFill.style.width = '0%';
+        statusEl.textContent = 'Préparation des photos...';
+
+        // Réinitialiser les anciennes URLs
+        uploadedImageUrls = [];
+
+        // Afficher les aperçus
+        previews.innerHTML = '';
+
+        files.forEach((file, index) => {
+
+            const preview = document.createElement('div');
+
+            preview.style.cssText = `
+                position: relative;
+                width: 120px;
+                height: 120px;
+                border-radius: 10px;
+                overflow: hidden;
+                border: 1px solid #ddd;
+            `;
+
+            preview.innerHTML = `
+                <img
+                    src="${URL.createObjectURL(file)}"
+                    alt="Photo ${index + 1}"
+                    style="
+                        width:100%;
+                        height:100%;
+                        object-fit:cover;
+                    "
+                >
+                <span style="
+                    position:absolute;
+                    top:5px;
+                    left:5px;
+                    background:rgba(0,0,0,.7);
+                    color:white;
+                    padding:3px 7px;
+                    border-radius:5px;
+                    font-size:12px;
+                ">
+                    ${index + 1}
+                </span>
+            `;
+
+            previews.appendChild(preview);
+        });
+
+        try {
+
+            for (let i = 0; i < files.length; i++) {
+
+                statusEl.textContent =
+                    `Upload de la photo ${i + 1}/${files.length}...`;
+
+                const url = await uploadProductImage(files[i]);
+
+                uploadedImageUrls.push(url);
+
+                const progress = Math.round(
+                    ((i + 1) / files.length) * 100
+                );
+
+                progressFill.style.width = `${progress}%`;
+            }
+
+            // Première image = image principale
+            document.getElementById('product-image').value =
+                uploadedImageUrls[0] || '';
+
+            // Toutes les images
+            document.getElementById('product-images-data').value =
+                JSON.stringify(uploadedImageUrls);
+
+            statusEl.textContent =
+                `${uploadedImageUrls.length} photo(s) téléchargée(s) avec succès !`;
+
+            showAdminToast(
+                `✅ ${uploadedImageUrls.length} photo(s) ajoutée(s) avec succès !`
+            );
+
+            setTimeout(() => {
+                progressDiv.style.display = 'none';
+            }, 2000);
+
+        } catch (error) {
+
+            console.error('Erreur upload Cloudinary :', error);
+
+            progressFill.style.width = '0%';
+
+            statusEl.textContent =
+                'Erreur lors de l’upload.';
+
+            showAdminToast(
+                error.message ||
+                'Erreur lors de l’upload des photos.'
+            );
+        }
+    });
+}
 
 // ===== Toast admin =====
 function showAdminToast(message) {
