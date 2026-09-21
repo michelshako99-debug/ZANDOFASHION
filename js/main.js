@@ -719,7 +719,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     await initProducts();
 
-    renderProducts('all', 'productGrid');
+    // La page spécifique gère le render (femme.html, homme.html, etc.)
+    // index.html a son propre renderHomeProducts()
 
     // ===== Filtres de catégories =====
     document.querySelectorAll('.category-filter').forEach(cb => {
