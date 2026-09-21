@@ -1471,6 +1471,24 @@ footer {
             color: var(--gray);
         }
 
+        .btn-reset-stats {
+            align-self: center;
+            padding: 0.5rem 0.85rem;
+            font-size: 0.8rem;
+            color: var(--gray);
+            background: transparent;
+            border: 1px solid var(--border-color, #e5e7eb);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-reset-stats:hover {
+            color: var(--danger, #ef4444);
+            border-color: var(--danger, #ef4444);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
         .admin-toolbar {
             display: flex;
             align-items: center;
@@ -2171,7 +2189,6 @@ footer {
     }
 }
 
-
 /* Amélioration tactile */
 @media (hover: none) and (pointer: coarse) {
 
@@ -2257,6 +2274,7 @@ img {
 
     </style>
 </head>
+
 <body class="admin-body">
     <!-- Header Admin -->
     <header class="admin-header">
@@ -2297,7 +2315,7 @@ img {
         <div class="admin-stats">
             <div class="stat-card">
                 <i class="fas fa-box"></i>
-                <div>
+                <div>   
                     <h3 id="stat-products">0</h3>
                     <p>Produits</p>
                 </div>
@@ -2323,29 +2341,7 @@ img {
                     <p>Valeur totale</p>
                 </div>
             </div>
-            <div class="stat-card">
-                <i class="fas fa-chart-line"></i>
-                <div>
-                    <h3 id="stat-today">0</h3>
-                    <p>Visites aujourd'hui</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-chart-bar"></i>
-                <div>
-                    <h3 id="stat-month">0</h3>
-                    <p>Visites ce mois</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-users"></i>
-                <div>
-                    <h3 id="stat-unique">0</h3>
-                    <p>Visiteurs uniques</p>
-                </div>
-            </div>
         </div>
-
         <!-- Barre d'outils -->
         <div class="admin-toolbar">
             <h2>Gestion des Produits</h2>
@@ -2442,22 +2438,61 @@ img {
                             <small class="form-hint">Couleurs sélectionnées : <span id="selected-colors-count">0</span></small>
                         </div>
                     </div>
-                <div class="form-group">
-                    <label for="product-image">Photo du produit *</label>
-                    <div class="upload-area">
-                        <input type="file" id="product-image-file" accept="image/*" style="display:none;">
-                        <button type="button" class="btn-upload" onclick="document.getElementById('product-image-file').click()">
-                            <i class="fas fa-cloud-upload-alt"></i> Ajouter une photo
-                        </button>
-                        <span class="upload-hint">ou collez une URL :</span>
-                        <input type="url" id="product-image" placeholder="https://..." required>
-                    </div>
-                    <img id="image-preview" class="image-preview" alt="Aperçu" style="display:none;">
-                    <div class="upload-progress" id="upload-progress" style="display:none;">
-                        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-                        <span id="upload-status">Upload en cours...</span>
-                    </div>
-                </div>
+             <div class="form-group">
+    <label>Photos du produit *</label>
+
+    <div class="upload-area">
+        <input
+            type="file"
+            id="product-image-files"
+            accept="image/*"
+            multiple
+            style="display:none;"
+        >
+
+        <button
+            type="button"
+            class="btn-upload"
+            onclick="document.getElementById('product-image-files').click()"
+        >
+            <i class="fas fa-cloud-upload-alt"></i>
+            Ajouter les photos
+        </button>
+
+        <span class="upload-hint">
+            Sélectionnez jusqu'à 2 photos
+        </span>
+
+        <div
+            id="image-previews"
+            style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;"
+        ></div>
+    </div>
+
+    <!-- URL de la première image, conservée pour compatibilité -->
+    <input type="hidden" id="product-image">
+
+    <!-- URLs des images -->
+    <input type="hidden" id="product-images-data">
+
+    <div class="upload-progress" id="upload-progress" style="display:none;">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <span id="upload-status">Upload en cours...</span>
+    </div>
+</div>
+
+    <!-- URLs Cloudinary générées -->
+    <input type="hidden" id="product-images-data">
+
+    <div class="upload-progress" id="upload-progress" style="display:none;">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <span id="upload-status">Upload en cours...</span>
+    </div>
+</div>
                 <div class="form-group">
                     <label for="product-description">Description</label>
                     <textarea id="product-description" rows="3" placeholder="Description du produit..."></textarea>
