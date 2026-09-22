@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promotions - ZANDO FASHION | Kinshasa</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👗</text></svg>">
+<style>
+
+/* ============================================================
+   ZANDO FASHION — PAGE ENFANT
+   PREMIUM MOTION SYSTEM
+   ============================================================ */
+
+:root {
+    --zf-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --zf-ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+/* ============================================================
+   01 — PAGE
+   ============================================================ */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+
+/* ============================================================
+   02 — BARRE D'ANNONCE
+   ============================================================ */
+
+.announcement {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.announcement::after {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: -120%;
+
+    width: 45%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.20),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+
+    animation:
+        zfAnnouncementShine
+        6s
+        ease-in-out
+        infinite;
+
+    pointer-events: none;
+}
+
+@keyframes zfAnnouncementShine {
+
+    0% {
+        left: -120%;
+    }
+
+    35%,
+    100% {
+        left: 140%;
+    }
+}
+
+
+/* ============================================================
+   03 — HEADER
+   ============================================================ */
+
+header {
+    position: relative;
+    z-index: 100;
+}
+
+
+/* Logo */
+
+.logo {
+    transition:
+        transform .5s var(--zf-ease),
+        letter-spacing .4s ease;
+}
+
+.logo:hover {
+    transform: translateY(-2px);
+    letter-spacing: .6px;
+}
+
+.logo-img {
+    display: inline-flex;
+
+    transition:
+        transform .6s var(--zf-ease),
+        box-shadow .5s ease;
+}
+
+.logo:hover .logo-img {
+    transform:
+        rotate(-6deg)
+        scale(1.08);
+}
+
+
+/* ============================================================
+   04 — NAVIGATION
+   ============================================================ */
+
+nav a {
+    position: relative;
+
+    transition:
+        color .35s ease,
+        transform .35s var(--zf-ease);
+}
+
+nav a:hover {
+    transform: translateY(-2px);
+}
+
+
+/* Point sous le menu */
+
+nav a::before {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: -8px;
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: currentColor;
+
+    transform:
+        translateX(-50%)
+        scale(0);
+
+    transition:
+        transform .35s var(--zf-ease);
+}
+
+nav a:hover::before,
+nav a.active::before {
+    transform:
+        translateX(-50%)
+        scale(1);
+}
+
+
+/* Ligne */
+
+nav a::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: -6px;
+
+    width: 0;
+    height: 1px;
+
+    background: currentColor;
+
+    transform: translateX(-50%);
+
+    transition:
+        width .45s var(--zf-ease);
+}
+
+nav a:hover::after,
+nav a.active::after {
+    width: 65%;
+}
+
+
+/* ============================================================
+   05 — PANIER
+   ============================================================ */
+
+.cart-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.90);
+    border: none;
+    color: var(--primary);
+    font-size: 1.15rem;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.cart-btn:hover {
+    transform: translateY(-2px) scale(1.08);
+    background: var(--white);
+    color: var(--gold);
+    box-shadow: 0 6px 20px rgba(212, 168, 83, 0.28);
+}
+
+.cart-btn:active {
+    transform: scale(.92);
+}
+
+/* Compteur */
+
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--accent);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: var(--font-size-xs);
+    font-weight: var(--fw-bold);
+    min-width: 18px;
+    height: 18px;
+    padding: 2px 4px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation:
+        zfCartPulse
+        2.5s
+        ease-in-out
+        infinite;
+}
+
+@keyframes zfCartPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.12);
+    }
+}
+
+
+/* ============================================================
+   06 — MENU MOBILE
+   ============================================================ */
+
+.menu-toggle span {
+    transition:
+        transform .45s var(--zf-ease),
+        opacity .3s ease;
+}
+
+.menu-toggle:hover span:nth-child(1) {
+    transform: translateX(3px);
+}
+
+.menu-toggle:hover span:nth-child(3) {
+    transform: translateX(-3px);
+}
+
+
+/* ============================================================
+   07 — PAGE HEADER
+   ============================================================ */
+
+.page-header {
+    position: relative;
+
+    overflow: hidden;
+    isolation: isolate;
+}
+
+
+/* Lumière douce */
+
+.page-header::before {
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    right: -200px;
+    top: -300px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.13),
+            transparent 68%
+        );
+
+    animation:
+        zfHeaderOrb
+        10s
+        ease-in-out
+        infinite;
+
+    pointer-events: none;
+}
+
+@keyframes zfHeaderOrb {
+
+    0%,
+    100% {
+        transform:
+            translate(0,0)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate(-60px,70px)
+            scale(1.15);
+    }
+}
+
+
+/* Deuxième lumière */
+
+.page-header::after {
+    content: "";
+
+    position: absolute;
+
+    width: 250px;
+    height: 250px;
+
+    left: -140px;
+    bottom: -150px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    animation:
+        zfHeaderRing
+        12s
+        linear
+        infinite;
+
+    pointer-events: none;
+}
+
+@keyframes zfHeaderRing {
+
+    from {
+        transform:
+            rotate(0deg)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            rotate(180deg)
+            scale(1.2);
+    }
+
+    to {
+        transform:
+            rotate(360deg)
+            scale(1);
+    }
+}
+
+
+/* Contenu */
+
+.page-header .container {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* Titre */
+
+.page-header h1 {
+    animation:
+        zfTitleReveal
+        .9s
+        var(--zf-ease)
+        both;
+}
+
+@keyframes zfTitleReveal {
+
+    from {
+        opacity: 0;
+        transform: scale(.94);
+        filter: blur(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+    }
+}
+
+
+/* Description */
+
+.page-header p {
+    animation:
+        zfTextReveal
+        .8s
+        .15s
+        var(--zf-ease)
+        both;
+}
+
+@keyframes zfTextReveal {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Breadcrumb */
+
+.breadcrumb {
+    animation:
+        zfTextReveal
+        .8s
+        .25s
+        var(--zf-ease)
+        both;
+}
+
+
+/* ============================================================
+   08 — FILTRES
+   ============================================================ */
+
+.filters {
+    position: relative;
+}
+
+
+/* Boutons */
+
+.filter-btn {
+    position: relative;
+
+    overflow: hidden;
+
+    transition:
+        transform .4s var(--zf-ease),
+        box-shadow .4s ease,
+        background .35s ease;
+}
+
+.filter-btn:hover {
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.10);
+}
+
+.filter-btn:active {
+    transform: scale(.95);
+}
+
+
+/* Reflet */
+
+.filter-btn::before {
+    content: "";
+
+    position: absolute;
+
+    top: -100%;
+    left: -80%;
+
+    width: 45%;
+    height: 300%;
+
+    background:
+        rgba(255,255,255,.20);
+
+    transform: rotate(25deg);
+
+    transition:
+        left .7s var(--zf-ease);
+}
+
+.filter-btn:hover::before {
+    left: 130%;
+}
+
+
+/* ============================================================
+   09 — GRILLE PRODUITS
+   ============================================================ */
+
+.product-grid {
+    perspective: 1200px;
+}
+
+
+/* ============================================================
+   10 — CARTE PRODUIT
+   ============================================================ */
+
+/*
+   IMPORTANT :
+   Pas d'animation d'apparition.
+   Les produits restent immédiatement visibles.
+*/
+
+.product-card {
+    position: relative;
+
+    overflow: hidden;
+
+    transition:
+        transform .55s var(--zf-ease),
+        box-shadow .55s ease,
+        filter .4s ease;
+}
+
+
+/* Hover premium */
+
+.product-card:hover {
+
+    transform:
+        translateY(-8px)
+        scale(1.012);
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.16);
+
+    filter: brightness(1.02);
+}
+
+
+/* ============================================================
+   11 — IMAGE PRODUIT
+   ============================================================ */
+
+.product-image {
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+/* Zoom image */
+
+.product-card img,
+.product-image img {
+
+    transition:
+        transform .8s var(--zf-ease),
+        filter .6s ease;
+}
+
+
+.product-card:hover img,
+.product-image:hover img {
+
+    transform: scale(1.08);
+
+    filter:
+        brightness(1.04);
+}
+
+
+/* ============================================================
+   12 — REFLET SUR L'IMAGE
+   ============================================================ */
+
+.product-image::after {
+
+    content: "";
+
+    position: absolute;
+
+    top: -100%;
+    left: -80%;
+
+    width: 55%;
+    height: 300%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.20),
+            transparent
+        );
+
+    transform: rotate(20deg);
+
+    transition:
+        left 1s var(--zf-ease);
+
+    pointer-events: none;
+}
+
+
+.product-card:hover .product-image::after {
+    left: 145%;
+}
+
+
+/* ============================================================
+   13 — BADGE
+   ============================================================ */
+
+.product-badge {
+
+    animation:
+        zfBadgePulse
+        3s
+        ease-in-out
+        infinite;
+}
+
+@keyframes zfBadgePulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.06);
+    }
+}
+
+
+/* ============================================================
+   14 — INFORMATIONS PRODUIT
+   ============================================================ */
+
+.product-info h3 {
+
+    transition:
+        transform .4s var(--zf-ease),
+        color .35s ease;
+}
+
+.product-card:hover .product-info h3 {
+
+    transform:
+        translateX(3px);
+}
+
+
+/* Catégorie */
+
+.product-category {
+
+    transition:
+        opacity .35s ease;
+}
+
+.product-card:hover .product-category {
+    opacity: .75;
+}
+
+
+/* Prix */
+
+.current-price {
+
+    transition:
+        transform .4s var(--zf-ease);
+}
+
+.product-card:hover .current-price {
+
+    transform:
+        scale(1.03);
+
+    transform-origin: left center;
+}
+
+
+/* ============================================================
+   15 — BOUTON AJOUTER AU PANIER
+   ============================================================ */
+
+.product-card .btn-add-cart {
+
+    position: relative;
+
+    overflow: hidden;
+
+    transition:
+        transform .4s var(--zf-ease),
+        box-shadow .4s ease;
+}
+
+
+.product-card .btn-add-cart:hover {
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.14);
+}
+
+
+.product-card .btn-add-cart:active {
+
+    transform:
+        scale(.95);
+}
+
+
+/* Reflet */
+
+.product-card .btn-add-cart::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -100%;
+
+    width: 70%;
+    height: 100%;
+
+    background:
+        rgba(255,255,255,.18);
+
+    transform:
+        skewX(-20deg);
+
+    transition:
+        left .7s var(--zf-ease);
+}
+
+
+.product-card .btn-add-cart:hover::before {
+    left: 140%;
+}
+
+
+/* ============================================================
+   16 — FOOTER
+   ============================================================ */
+
+.footer-links li a {
+
+    display: inline-block;
+
+    transition:
+        transform .35s var(--zf-ease),
+        color .35s ease;
+}
+
+.footer-links li a:hover {
+
+    transform:
+        translateX(6px);
+}
+
+
+/* Social */
+
+.social-links a {
+
+    display: inline-flex;
+
+    transition:
+        transform .4s var(--zf-ease),
+        box-shadow .4s ease;
+}
+
+.social-links a:hover {
+
+    transform:
+        translateY(-5px)
+        scale(1.08);
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.15);
+}
+
+
+/* ============================================================
+   17 — PANIER
+   ============================================================ */
+
+.cart-overlay {
+
+    transition:
+        opacity .5s ease,
+        visibility .5s ease;
+}
+
+
+.cart-sidebar {
+
+    transition:
+        transform .65s var(--zf-ease),
+        box-shadow .65s ease;
+}
+
+
+.close-cart {
+
+    transition:
+        transform .45s var(--zf-ease),
+        background .3s ease;
+}
+
+
+.close-cart:hover {
+
+    transform:
+        rotate(90deg)
+        scale(1.1);
+}
+
+
+/* Articles */
+
+.cart-item {
+
+    animation:
+        zfCartItem
+        .5s
+        var(--zf-ease)
+        both;
+}
+
+@keyframes zfCartItem {
+
+    from {
+        opacity: 0;
+        transform: translateX(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+/* Checkout */
+
+.btn-checkout {
+
+    position: relative;
+
+    overflow: hidden;
+
+    transition:
+        transform .4s var(--zf-ease),
+        box-shadow .4s ease;
+}
+
+
+.btn-checkout:hover {
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.16);
+}
+
+
+.btn-checkout::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -100%;
+
+    width: 70%;
+    height: 100%;
+
+    background:
+        rgba(255,255,255,.20);
+
+    transform:
+        skewX(-20deg);
+
+    transition:
+        left .7s var(--zf-ease);
+}
+
+
+.btn-checkout:hover::before {
+    left: 140%;
+}
+
+
+/* ============================================================
+   18 — NOTIFICATIONS
+   ============================================================ */
+
+#notificationContainer > * {
+
+    animation:
+        zfNotification
+        .5s
+        var(--zf-ease)
+        both;
+}
+
+@keyframes zfNotification {
+
+    from {
+        opacity: 0;
+        transform:
+            translateX(50px)
+            scale(.94);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateX(0)
+            scale(1);
+    }
+}
+
+
+/* ============================================================
+   19 — MOBILE
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+    .page-header::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    .page-header::after {
+        width: 180px;
+        height: 180px;
+    }
+
+    .product-card:hover {
+
+        transform:
+            translateY(-5px)
+            scale(1.006);
+    }
+
+    .product-card:hover img {
+
+        transform:
+            scale(1.05);
+    }
+
+    .filter-btn:hover {
+
+        transform:
+            translateY(-2px);
+    }
+
+    .social-links a:hover {
+
+        transform:
+            translateY(-3px)
+            scale(1.05);
+    }
+}
+
+
+/* ============================================================
+   20 — ACCESSIBILITÉ
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration:
+            .01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            .01ms !important;
+
+        scroll-behavior:
+            auto !important;
+    }
+}
+/* =========================================================
+   ZANDO FASHION — PREMIUM LOADER
+   ========================================================= */
+
+#zfLoader {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255,255,255,.04),
+            transparent 45%
+        ),
+        #111;
+
+    opacity: 1;
+    visibility: visible;
+
+    transition:
+        opacity .8s cubic-bezier(.16,1,.3,1),
+        visibility .8s ease;
+}
+
+
+/* Quand le chargement est terminé */
+
+#zfLoader.zf-loaded {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+
+/* Contenu */
+
+.zf-loader-content {
+    width: min(360px, 80%);
+    text-align: center;
+
+    animation:
+        zfLoaderContent
+        1s cubic-bezier(.16,1,.3,1)
+        both;
+}
+
+@keyframes zfLoaderContent {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.zf-loader-logo {
+    width: 75px;
+    height: 75px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18px;
+
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: 2px;
+
+    color: #fff;
+
+    border: 1px solid rgba(255,255,255,.18);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.12),
+            rgba(255,255,255,.03)
+        );
+
+    box-shadow:
+        0 15px 50px rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.12);
+
+    animation:
+        zfLogoPulse
+        2.8s
+        ease-in-out
+        infinite;
+}
+
+@keyframes zfLogoPulse {
+
+    0%, 100% {
+        transform:
+            scale(1)
+            rotate(0deg);
+    }
+
+    50% {
+        transform:
+            scale(1.06)
+            rotate(-2deg);
+    }
+}
+
+
+/* =========================================================
+   NOM
+   ========================================================= */
+
+.zf-loader-brand {
+    color: #fff;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 28px;
+}
+
+.zf-loader-brand span {
+    font-weight: 300;
+    opacity: .65;
+}
+
+
+/* =========================================================
+   BARRE
+   ========================================================= */
+
+.zf-loader-line {
+    width: 100%;
+    height: 3px;
+
+    overflow: hidden;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,255,255,.12);
+
+    box-shadow:
+        0 0 15px rgba(255,255,255,.05);
+}
+
+
+/* Progression */
+
+.zf-loader-progress {
+    width: 0%;
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.4),
+            #fff,
+            rgba(255,255,255,.4)
+        );
+
+    box-shadow:
+        0 0 15px rgba(255,255,255,.5);
+
+    animation:
+        zfLoadingProgress
+        2.5s
+        cubic-bezier(.16,1,.3,1)
+        forwards;
+}
+
+@keyframes zfLoadingProgress {
+
+    0% {
+        width: 0%;
+    }
+
+    35% {
+        width: 35%;
+    }
+
+    65% {
+        width: 68%;
+    }
+
+    85% {
+        width: 88%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+
+/* =========================================================
+   TEXTE
+   ========================================================= */
+
+.zf-loader-text {
+    margin-top: 14px;
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+
+    color:
+        rgba(255,255,255,.45);
+
+    animation:
+        zfLoaderText
+        2s
+        ease-in-out
+        infinite;
+}
+
+@keyframes zfLoaderText {
+
+    0%, 100% {
+        opacity: .4;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .zf-loader-logo {
+        width: 65px;
+        height: 65px;
+        font-size: 21px;
+    }
+
+    .zf-loader-brand {
+        font-size: 17px;
+        letter-spacing: 3px;
+    }
+
+    .zf-loader-content {
+        width: 75%;
+    }
+}
+</style>
+</head>
+<body>
+        <!-- =====================================================
+     ZANDO FASHION — PREMIUM LOADER
+     ===================================================== -->
+
+<div id="zfLoader">
+
+    <div class="zf-loader-content">
+
+        <div class="zf-loader-logo">
+            ZF
+        </div>
+
+        <div class="zf-loader-brand">
+            ZANDO <span>FASHION</span>
+        </div>
+
+        <div class="zf-loader-line">
+            <div class="zf-loader-progress"></div>
+        </div>
+
+        <div class="zf-loader-text">
+            Chargement de votre expérience...
+        </div>
+
+    </div>
+
+</div>
+
+    <div class="announcement">
+        Livraison gratuite à Kinshasa dès 100 000 FC d'achat · +243 860 848 141
+    </div>
+    <header>
+        <div class="container">
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <a href="index.html" class="logo">
+                <span class="logo-img">ZF</span>
+                ZANDO <span>FASHION</span>
+            </a>
+            <div class="header-actions">
+                <button class="cart-btn" onclick="toggleCart()">
+                    <img class="cart-icon" src="images/cart-icon.png" alt="Panier" width="24" height="24"> <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <a href="index.html">Accueil</a>
+        <a href="femme.html">Femme</a>
+        <a href="homme.html">Homme</a>
+        <a href="enfant.html">Enfant</a>
+        <a href="promos.html" class="active">Promotions</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="admin.html">admin</a>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Promotions</h1>
+            <p>Les meilleures offres du ZANDO : vêtements femme, homme et enfant à prix réduit, validées par notre sélection</p>
+            <div class="breadcrumb">
+                <a href="index.html">Accueil</a> / <span>Promotions</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="products-section">
+        <div class="container">
+            <div class="filters">
+                <button class="filter-btn active" onclick="renderPromoProducts()">Toutes les Promotions</button>
+            </div>
+            <div class="product-grid" id="productGrid"></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <h3>ZANDO FASHION</h3>
+                    <p>Votre boutique en ligne inspirée du Marché Central de Kinshasa (ZANDO). Prix en Francs Congolais.</p>
+                    <div class="social-links">
+                        <a href="#" title="WhatsApp">💬</a>
+                        <a href="#" title="Instagram">📷</a>
+                        <a href="#" title="Facebook">f</a>
+                        <a href="#" title="TikTok">🎵</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Catégories</h4>
+                    <ul>
+                        <li><a href="femme.html">Mode Femme</a></li>
+                        <li><a href="homme.html">Mode Homme</a></li>
+                        <li><a href="enfant.html">Mode Enfant</a></li>
+                        <li><a href="promos.html" class="active">Promotions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="#">+243 860 848 141</a></li>
+                        <li><a href="#">Marché Central, Kinshasa</a></li>
+                        <li><a href="#">Lun-Sam: 8h-18h</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Infos</h4>
+                    <ul>
+                        <li><a href="#">Livraison</a></li>
+                        <li><a href="#">Retours</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ZANDO FASHION · Kinshasa, RDC · Prix en FC</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PRODUCT DETAIL OVERLAY -->
+    <div class="product-detail-overlay" id="productDetailOverlay">
+        <div class="product-detail">
+            <div class="pd-header">
+                <button class="pd-back" onclick="closeProductDetail()" aria-label="Retour">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <button class="pd-favorite" onclick="toggleFavorite()" aria-label="Favoris">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+
+            <div class="pd-gallery">
+                <div class="pd-gallery-main">
+                    <img id="pdMainImage" src="" alt="">
+                    <button class="pd-fullscreen-btn" id="pdFullscreenBtn" onclick="openFullscreen()" aria-label="Plein écran">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+                <div class="pd-gallery-indicator" id="pdGalleryIndicator">1 / 1</div>
+                <div class="pd-gallery-thumbs" id="pdGalleryThumbs"></div>
+            </div>
+
+            <div class="pd-info">
+                <div class="pd-category" id="pdCategory"></div>
+                <h1 class="pd-name" id="pdName"></h1>
+                <div class="pd-price">
+                    <span class="pd-current-price" id="pdCurrentPrice"></span>
+                    <span class="pd-old-price" id="pdOldPrice"></span>
+                </div>
+
+                <div class="pd-section" id="pdColorsSection">
+                    <div class="pd-label">Couleur</div>
+                    <div class="pd-colors" id="pdColors"></div>
+                </div>
+
+                <div class="pd-section" id="pdSizesSection">
+                    <div class="pd-label">Taille</div>
+                    <div class="pd-sizes" id="pdSizes"></div>
+                </div>
+
+                <div class="pd-section">
+                    <div class="pd-label">Disponibilité</div>
+                    <div class="pd-stock" id="pdStock"></div>
+                </div>
+
+                <button class="pd-add-cart" id="pdAddCart" onclick="addToCartFromDetail()">
+                    Ajouter au panier
+                </button>
+
+                <div class="pd-description" id="pdDescription"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FULLSCREEN IMAGE VIEWER -->
+    <div class="pd-fullscreen" id="pdFullscreen">
+        <button class="pd-fullscreen-close" onclick="closeFullscreen()" aria-label="Fermer">
+            <i class="fas fa-times"></i>
+        </button>
+        <img id="pdFullscreenImage" src="" alt="">
+    </div>
+
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Votre panier</h3>
+            <button class="close-cart" onclick="toggleCart()">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty">
+                <div class="empty-icon">🛒</div>
+                <h4>Votre panier est vide</h4>
+                <p>Ajoutez des articles depuis notre boutique</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total</span>
+                <span class="total-price" id="cartTotal">0 FC</span>
+            </div>
+            <button class="btn-checkout" id="checkoutBtn" onclick="checkoutWhatsApp()">Commander sur WhatsApp</button>
+        </div>
+    </div>
+    <div id="notificationContainer"></div>
+
+    <script src="js/products.js"></script>
+    <script src="js/main.js"></script>
+    
+    <!-- Scripts Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script>
+        function renderPromoProducts() {
+            renderProducts('promo', 'productGrid');
+        }
+        document.addEventListener('DOMContentLoaded', renderPromoProducts);
+        document.addEventListener('products-loaded', renderPromoProducts);
+        function filterBySubcategory(sub, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            const container = document.getElementById('productGrid');
+            const filtered = products.filter(p => p.category === 'Femme' && p.subcategory === sub);
+            container.innerHTML = '';
+            filtered.forEach((product, index) => {
+                const card = createProductCard(product);
+                card.style.animationDelay = (index * 0.05) + 's';
+                container.appendChild(card);
+            });
+            attachCartListeners(container);
+        }
+    </script>
+    <script>
+/* =========================================================
+   ZANDO FASHION — LOADER RAPIDE
+   Affiché uniquement lors d'une actualisation
+   ========================================================= */
+
+(function () {
+
+    const loader = document.getElementById("zfLoader");
+
+    if (!loader) return;
+
+    const navigation = performance.getEntriesByType("navigation")[0];
+
+    // Afficher uniquement après F5 / Ctrl+R
+    if (navigation && navigation.type === "reload") {
+
+        window.addEventListener("load", function () {
+
+            // Disparaît rapidement
+            setTimeout(() => {
+
+                loader.classList.add("zf-loaded");
+
+                // Suppression complète
+                setTimeout(() => {
+                    loader.remove();
+                }, 500);
+
+            }, 600);
+
+        });
+
+    } else {
+
+        // Navigation normale : aucun loader
+        loader.remove();
+
+    }
+
+})();
+    </script>
+    <div class="mobile-menu-overlay" onclick="toggleMenu()"></div>
+</body>
+</html>
