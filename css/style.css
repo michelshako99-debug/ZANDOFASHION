@@ -13,6 +13,7 @@
     --gold: #b8933f;
     --gold-light: #c9a84c;
     --gold-dark: #9a7b2f;
+    --gold-soft: rgba(184, 147, 63, 0.1);
     --accent: #a16207;
     --white: #ffffff;
     --gray-50: #f8fafc;
@@ -281,9 +282,120 @@ nav a.active::after {
     transform: rotate(-45deg) translate(5px, -5px);
 }
 
+/* ===== SEARCH SECTION ===== */
+.search-section {
+    padding: 40px 0;
+    background: var(--white);
+}
+
+.search-section .search-bar {
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+/* ===== SEARCH BAR ===== */
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: var(--white);
+    border-radius: 50px;
+    padding: 4px 20px;
+    margin: 24px 0;
+    max-width: 480px;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    position: relative;
+}
+
+.search-bar:focus-within {
+    box-shadow: 0 4px 24px rgba(184, 147, 63, 0.25);
+}
+
+.search-bar i {
+    color: var(--gray-400);
+    font-size: 1rem;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.search-bar input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    color: var(--gray-700);
+    background: transparent;
+    padding: 8px 0;
+}
+
+.search-bar input::placeholder {
+    color: var(--gray-400);
+}
+
+/* ===== SEARCH SUGGESTIONS ===== */
+.search-suggestions {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    z-index: 1000;
+    display: none;
+}
+
+.search-suggestions.active {
+    display: block;
+}
+
+.suggestion-item {
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    color: var(--gray-700);
+    border-bottom: 1px solid var(--gray-100);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover,
+.suggestion-item.active {
+    background: var(--gold-soft);
+}
+
+.suggestion-item i {
+    color: var(--gray-400);
+    font-size: 0.9rem;
+}
+
+.suggestion-item .suggestion-name {
+    flex: 1;
+}
+
+.suggestion-item .suggestion-cat {
+    font-size: 0.8rem;
+    color: var(--gray-400);
+}
+
+.search-suggestions .no-result {
+    padding: 16px 24px;
+    color: var(--gray-400);
+    text-align: center;
+}
+
 /* ===== HERO ===== */
 .hero {
-    background: url(), linear-gradient(135deg, var(--primary) 25%, var(--primary-light) 50%, var(--primary-dark) 100%);
+    background: url('images/hero-fabrics.png'), linear-gradient(135deg, var(--primary) 25%, var(--primary-light) 50%, var(--primary-dark) 100%);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -353,18 +465,20 @@ nav a.active::after {
 }
 
 .btn {
-    display: inline-flex;
+    display: flex;
+    justify-content: center;
     align-items: center;
     gap: 8px;
     padding: 12px 28px;
     border-radius: 8px;
     font-family: var(--font-body);
-    font-weight: var(--fw-semibold);
-    font-size: var(--font-size-sm);
+    font-weight: 900;
+    font-size: 20px;
     border: none;
     cursor: pointer;
     transition: var(--transition);
     text-decoration: none;
+    box-shadow: 0 0 24px ;
 }
 
 .btn-primary {
@@ -586,7 +700,7 @@ nav a.active::after {
 }
 .product-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--white);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
 .product-badge {
@@ -782,12 +896,7 @@ nav a.active::after {
     margin-bottom: 8px;
     font-weight: var(--fw-bold);
 }
-.btn-primary {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    font-size: 1.0rem;
-}
+
 .newsletter p {
     font-family: var(--font-body);
     font-size: var(--font-size-sm);
