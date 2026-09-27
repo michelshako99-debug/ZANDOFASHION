@@ -1564,7 +1564,7 @@ button:active {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 .footer-about p {
-    color: rgba(0, 0, 0, 0.7);
+    color: rgb(255, 255, 255);
     font-size: 0.9rem;
     line-height: 1.7;
     margin-bottom: 20px;
@@ -1868,6 +1868,18 @@ button:active {
     <!-- PROMO BANNER -->
    
 
+    <!-- SEARCH -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Rechercher un produit...">
+                <button type="button" id="search-btn" class="btn btn-primary btn-sm">Rechercher</button>
+                <div class="search-suggestions" id="search-suggestions"></div>
+            </div>
+        </div>
+    </section>
+
     <!-- CATEGORIES -->
     <section class="categories" id="categories">
         <div class="container">
@@ -1969,19 +1981,35 @@ button:active {
             <h3>Restez informé</h3>
             <p>Soyez notifié des nouvelles collections et des promotions exclusives</p>
             <form class="newsletter-form" onsubmit="return handleNewsletter(event)">
-                <input type="email" placeholder="Entrer votre adresse email" required>
+                
                 <button type="submit" class="btn btn-primary"><a href="mailto:zandofashion@gmail.com">contactez-nous</a></button>
             </form>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer>
-        <div class="footer-bottom">
-           <p>© 2026 Université Nationale. Tous droits réservés</p>
+          <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <h3>ZANDO FASHION</h3>
+                    <p>Votre boutique en ligne inspirée du Marché Central de Kinshasa (ZANDO). Prix en Francs Congolais.</p>
+                    <div class="social-links">
+                        <a href="#" target="_blank" rel="noopener noreferrer" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" title="Instagram"><i class="fab fa-facebook"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" title="Instagram"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" title="Instagram"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+             
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ZANDO FASHION · Kinshasa, RDC · Prix en FC</p>
+            </div>
         </div>
-
     </footer>
+   
 
     <!-- CART OVERLAY -->
     <div class="cart-overlay" id="cartOverlay"></div>
