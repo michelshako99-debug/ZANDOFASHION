@@ -45,6 +45,8 @@ async function initProducts() {
 
     const localProducts = JSON.parse(localStorage.getItem('zandoProducts')) || [];
     localProducts.forEach(p => {
+        if (p.category) p.category = p.category.trim();
+        if (p.subcategory) p.subcategory = p.subcategory.trim();
         if (!existingIds.has(p.id)) {
             products.push(p);
             existingIds.add(p.id);
@@ -55,6 +57,8 @@ async function initProducts() {
         const firestoreProducts = await loadProductsFromFirestore();
         if (firestoreProducts && firestoreProducts.length > 0) {
             firestoreProducts.forEach(p => {
+                if (p.category) p.category = p.category.trim();
+                if (p.subcategory) p.subcategory = p.subcategory.trim();
                 if (!existingIds.has(p.id)) {
                     products.push(p);
                     existingIds.add(p.id);
@@ -170,7 +174,8 @@ function renderProducts(category = 'all', containerId = 'productGrid') {
     } else if (category === 'promo') {
         filtered = products.filter(p => p.oldPrice && p.oldPrice > 0);
     } else {
-        filtered = products.filter(p => p.category === category);
+        const catLower = category.toLowerCase();
+        filtered = products.filter(p => (p.category || '').toLowerCase() === catLower);
     }
 
     container.innerHTML = '';
@@ -826,3 +831,190 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
 })
+
+// ===== RECHERCHE =====
+
+function scrollToSearchResults() {
+    const container = document.getElementById('productGrid');
+    if (!container) return;
+
+    const header = document.querySelector('header');
+    const offset = header ? header.offsetHeight + 20 : 20;
+    const top = container.getBoundingClientRect().top + window.pageYOffset - offset;
+
+    window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
+}
+
+function searchProducts(term) {
+    const container = document.getElementById('productGrid');
+    if (!container) return;
+
+    if (!term || !term.trim()) {
+        renderProducts('all', 'productGrid');
+        return;
+    }
+
+    const filtered = findProducts(term);
+
+    container.innerHTML = '';
+
+    if (filtered.length === 0) {
+        container.innerHTML = `
+            <div style="grid-column:1/-1;text-align:center;padding:60px 20px;">
+                <i class="fas fa-search" style="font-size:3rem;color:var(--gray-300);margin-bottom:16px;display:block;"></i>
+                <h3 style="font-family:var(--font-heading);color:var(--gray-700);margin-bottom:8px;">Aucun résultat</h3>
+                <p style="color:var(--gray-400);">Aucun produit ne correspond à "${escapeHtml(term.trim())}"</p>
+            </div>
+        `;
+        scrollToSearchResults();
+        return;
+    }
+
+    filtered.forEach((product, index) => {
+        const card = createProductCard(product);
+        card.style.animationDelay = (index * 0.05) + 's';
+        container.appendChild(card);
+    });
+
+    scrollToSearchResults();
+}
+
+function getSuggestions(term) {
+    if (!term || !term.trim()) return [];
+    return findProducts(term, 6);
+}
+
+function selectSuggestion(text) {
+    const input = document.getElementById('search-input');
+    if (input) input.value = text;
+    hideSuggestions();
+    searchProducts(text);
+}
+
+function setActiveSuggestion(items, index) {
+    items.forEach((item, i) => {
+        item.classList.toggle('active', i === index);
+        if (i === index) item.scrollIntoView({ block: 'nearest' });
+    });
+}
+
+function showSuggestions(suggestions) {
+    const container = document.getElementById('search-suggestions');
+    if (!container) return;
+
+    if (!suggestions.length) {
+        container.innerHTML = '';
+        container.classList.remove('active');
+        return;
+    }
+
+    container.innerHTML = suggestions.map(p => `
+        <div class="suggestion-item" data-name="${escapeHtml(p.name || '')}">
+            <i class="fas fa-tag"></i>
+            <span class="suggestion-name">${escapeHtml(p.name || '')}</span>
+            <span class="suggestion-cat">${escapeHtml(p.subcategory || p.category || '')}</span>
+        </div>
+    `).join('');
+
+    container.classList.add('active');
+
+    container.querySelectorAll('.suggestion-item').forEach(item => {
+        item.addEventListener('click', function () {
+            selectSuggestion(this.dataset.name);
+        });
+    });
+}
+
+function hideSuggestions() {
+    const container = document.getElementById('search-suggestions');
+    if (!container) return;
+    container.classList.remove('active');
+    container.innerHTML = '';
+}
+
+function debounce(fn, delay) {
+    let timer = null;
+    return function () {
+        const args = arguments;
+        const ctx = this;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            fn.apply(ctx, args);
+        }, delay);
+    };
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    var searchBtn = document.getElementById('search-btn');
+    var searchInput = document.getElementById('search-input');
+
+    if (searchBtn && searchInput) {
+        var activeIndex = -1;
+
+        var closeSuggestions = function () {
+            activeIndex = -1;
+            hideSuggestions();
+        };
+
+        searchBtn.addEventListener('click', function () {
+            closeSuggestions();
+            searchProducts(searchInput.value);
+        });
+
+        searchInput.addEventListener('keydown', function (e) {
+            var container = document.getElementById('search-suggestions');
+            var items = container ? container.querySelectorAll('.suggestion-item') : [];
+            var isOpen = container && container.classList.contains('active') && items.length;
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (!isOpen) return;
+                activeIndex = (activeIndex + 1) % items.length;
+                setActiveSuggestion(items, activeIndex);
+                return;
+            }
+
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (!isOpen) return;
+                activeIndex = activeIndex <= 0 ? items.length - 1 : activeIndex - 1;
+                setActiveSuggestion(items, activeIndex);
+                return;
+            }
+
+            if (e.key === 'Enter') {
+                if (isOpen && activeIndex > -1) {
+                    e.preventDefault();
+                    selectSuggestion(items[activeIndex].dataset.name);
+                    return;
+                }
+                closeSuggestions();
+                searchProducts(searchInput.value);
+                return;
+            }
+
+            if (e.key === 'Escape') {
+                closeSuggestions();
+                return;
+            }
+
+            activeIndex = -1;
+        });
+
+        var debouncedInput = debounce(function (value) {
+            showSuggestions(getSuggestions(value));
+        }, 250);
+
+        searchInput.addEventListener('input', function () {
+            activeIndex = -1;
+            debouncedInput(this.value);
+        });
+    }
+
+    document.addEventListener('click', function (e) {
+        var searchBar = document.querySelector('.search-bar');
+        if (searchBar && !searchBar.contains(e.target)) {
+            hideSuggestions();
+        }
+    });
+});
